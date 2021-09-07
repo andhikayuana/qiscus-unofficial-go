@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/syahidfrd/go-qiscus"
+	"github.com/andhikayuana/qiscus-unofficial-go"
 )
 
 // GetRoomTags get room tags by room ID

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/syahidfrd/go-qiscus"
+	"github.com/andhikayuana/qiscus-unofficial-go"
 )
 
 // Base Url the library uses to contact multichannel. Use SetAPIBase() to override

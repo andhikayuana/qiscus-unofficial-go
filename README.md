@@ -3,18 +3,18 @@
 This library is the abstraction of Qiscus SDK & Multichannel API for access from applications written with Go.
 
 ## Installation
-Install go-qiscus with:
+Install qiscus-unofficial-go with:
 
 ```sh
-go get -u github.com/syahidfrd/go-qiscus
+go get -u github.com/andhikayuana/qiscus-unofficial-go
 ```
 
 Then, import it using:
 
 ```go
 import (
-    "github.com/syahidfrd/go-qiscus"
-    "github.com/syahidfrd/go-qiscus/$product$"
+    "github.com/andhikayuana/qiscus-unofficial-go"
+    "github.com/andhikayuana/qiscus-unofficial-go/$product$"
 )
 ```
 with `$product$` is the product of Qiscus such as `sdk` and `multichannel`.
@@ -26,8 +26,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/syahidfrd/go-qiscus/multichannel"
-	"github.com/syahidfrd/go-qiscus/sdk"
+	"github.com/andhikayuana/qiscus-unofficial-go/multichannel"
+	"github.com/andhikayuana/qiscus-unofficial-go/sdk"
 )
 
 func main() {

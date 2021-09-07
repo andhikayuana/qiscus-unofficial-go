@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/syahidfrd/go-qiscus/multichannel"
-	"github.com/syahidfrd/go-qiscus/sdk"
+	"github.com/andhikayuana/qiscus-unofficial-go/multichannel"
+	"github.com/andhikayuana/qiscus-unofficial-go/sdk"
 )
 
 func main() {

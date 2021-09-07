@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/syahidfrd/go-qiscus"
+	"github.com/andhikayuana/qiscus-unofficial-go"
 )
 
 // LoginOrRegister Login or register
