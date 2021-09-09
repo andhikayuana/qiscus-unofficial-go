@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Initiate client for Multichannel
-	multichannelClient := multichannel.NewMultichannel("karm-gzu41e4e4dv9fu3f", "A5wmVwtjhD3CIiIlQVCA", "karm-gzu41e4e4dv9fu3f_admin@qismo.com")
+	multichannelClient := multichannel.NewMultichannel("app-id", "admin-token", "admin-email")
 
 	// Initiate client for Multichannel using creadential email and password admin
 	// multichannelClient, err := multichannel.NewMultichannelFromCredential("kaqiscus@gmail.com", "garasipojok")
@@ -32,7 +32,7 @@ func main() {
 	fmt.Println(resp)
 
 	// Initiate client for SDK
-	sdkClient := sdk.NewSDK("karm-gzu41e4e4dv9fu3f", "9d54f6697777234479341ed20dba7517")
+	sdkClient := sdk.NewSDK("app-id", "secret-key")
 
 	// Initiate client for SDK using environment variable
 	// QISCUS_SDK_APP_CODE, QISCUS_SDK_SECRET_KEY and QISCUS_SDK_BASE_URL

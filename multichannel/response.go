@@ -214,3 +214,177 @@ type LoginAdminResponse struct {
 		} `json:"user_configs"`
 	} `json:"data"`
 }
+
+// GetAllAgentsResponse: Represent Get all agents response payload
+type GetAllAgentsResponse struct {
+	Data struct {
+		Agents []struct {
+			AvatarURL            string    `json:"avatar_url"`
+			CreatedAt            string    `json:"created_at"`
+			CurrentCustomerCount int       `json:"current_customer_count"`
+			Email                string    `json:"email"`
+			ForceOffline         bool      `json:"force_offline"`
+			ID                   int       `json:"id"`
+			IsAvailable          bool      `json:"is_available"`
+			LastLogin            time.Time `json:"last_login"`
+			Name                 string    `json:"name"`
+			SdkEmail             string    `json:"sdk_email"`
+			SdkKey               string    `json:"sdk_key"`
+			Type                 int       `json:"type"`
+			TypeAsString         string    `json:"type_as_string"`
+			UserChannels         []struct {
+				ID   int    `json:"id"`
+				Name string `json:"name"`
+			} `json:"user_channels"`
+			UserRoles []interface{} `json:"user_roles"`
+		} `json:"agents"`
+	} `json:"data"`
+	Meta struct {
+		PerPage    int `json:"per_page"`
+		TotalCount int `json:"total_count"`
+	} `json:"meta"`
+	Status int `json:"status"`
+}
+
+// AssignAgentResponse: Represent Assign agent response payload
+type AssignAgentResponse struct {
+	Data struct {
+		AddedAgent struct {
+			ID                  int           `json:"id"`
+			Name                string        `json:"name"`
+			Email               string        `json:"email"`
+			AuthenticationToken string        `json:"authentication_token"`
+			CreatedAt           string        `json:"created_at"`
+			UpdatedAt           string        `json:"updated_at"`
+			SdkEmail            string        `json:"sdk_email"`
+			SdkKey              string        `json:"sdk_key"`
+			IsAvailable         bool          `json:"is_available"`
+			Type                int           `json:"type"`
+			AvatarURL           string        `json:"avatar_url"`
+			AppID               int           `json:"app_id"`
+			IsVerified          bool          `json:"is_verified"`
+			NotificationsRoomID string        `json:"notifications_room_id"`
+			BubbleColor         interface{}   `json:"bubble_color"`
+			QismoKey            string        `json:"qismo_key"`
+			DirectLoginToken    interface{}   `json:"direct_login_token"`
+			LastLogin           string        `json:"last_login"`
+			ForceOffline        bool          `json:"force_offline"`
+			DeletedAt           interface{}   `json:"deleted_at"`
+			TypeAsString        string        `json:"type_as_string"`
+			AssignedRules       []interface{} `json:"assigned_rules"`
+		} `json:"added_agent"`
+	} `json:"data"`
+}
+
+// GetAgentsByDivisionResponse: Represent get agents by divisions response payload
+type GetAgentsByDivisionResponse struct {
+	Data []struct {
+		AvatarURL            string    `json:"avatar_url"`
+		CurrentCustomerCount int       `json:"current_customer_count"`
+		Email                string    `json:"email"`
+		ForceOffline         bool      `json:"force_offline"`
+		ID                   int       `json:"id"`
+		IsAvailable          bool      `json:"is_available"`
+		LastLogin            time.Time `json:"last_login"`
+		Name                 string    `json:"name"`
+		SdkEmail             string    `json:"sdk_email"`
+		SdkKey               string    `json:"sdk_key"`
+		Type                 int       `json:"type"`
+		TypeAsString         string    `json:"type_as_string"`
+		UserChannels         []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"user_channels"`
+		UserRoles []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"user_roles"`
+	} `json:"data"`
+	Meta struct {
+		Limit     int `json:"limit"`
+		Page      int `json:"page"`
+		Total     int `json:"total"`
+		TotalPage int `json:"total_page"`
+	} `json:"meta"`
+}
+
+// GetAllDivisionResponse: Represent Get all division response payload
+type GetAllDivisionResponse struct {
+	Data []struct {
+		AppID         int    `json:"app_id"`
+		CreatedAt     string `json:"created_at"`
+		ID            int    `json:"id"`
+		IsDefaultRole bool   `json:"is_default_role"`
+		Name          string `json:"name"`
+		UpdatedAt     string `json:"updated_at"`
+	} `json:"data"`
+	Meta struct {
+		Limit     int `json:"limit"`
+		Page      int `json:"page"`
+		Total     int `json:"total"`
+		TotalPage int `json:"total_page"`
+	} `json:"meta"`
+}
+
+// MarkAsResolvedResponse: Represent Mark as resolved response payload
+type MarkAsResolvedResponse struct {
+	Data struct {
+		Service struct {
+			Notes      string `json:"notes"`
+			IsResolved bool   `json:"is_resolved"`
+			ResolvedAt struct {
+				Date         string `json:"date"`
+				TimezoneType int    `json:"timezone_type"`
+				Timezone     string `json:"timezone"`
+			} `json:"resolved_at"`
+			UserID      int    `json:"user_id"`
+			AppID       int    `json:"app_id"`
+			RoomLogID   int    `json:"room_log_id"`
+			RoomID      string `json:"room_id"`
+			RetrievedAt struct {
+				Date         string `json:"date"`
+				TimezoneType int    `json:"timezone_type"`
+				Timezone     string `json:"timezone"`
+			} `json:"retrieved_at"`
+			FirstCommentID string `json:"first_comment_id"`
+			LastCommentID  string `json:"last_comment_id"`
+			UpdatedAt      string `json:"updated_at"`
+			CreatedAt      string `json:"created_at"`
+			ID             int    `json:"id"`
+			User           struct {
+				ID                  int           `json:"id"`
+				Name                string        `json:"name"`
+				Email               string        `json:"email"`
+				AuthenticationToken string        `json:"authentication_token"`
+				CreatedAt           string        `json:"created_at"`
+				UpdatedAt           string        `json:"updated_at"`
+				SdkEmail            string        `json:"sdk_email"`
+				SdkKey              string        `json:"sdk_key"`
+				IsAvailable         bool          `json:"is_available"`
+				Type                int           `json:"type"`
+				AvatarURL           string        `json:"avatar_url"`
+				AppID               int           `json:"app_id"`
+				IsVerified          bool          `json:"is_verified"`
+				NotificationsRoomID string        `json:"notifications_room_id"`
+				BubbleColor         interface{}   `json:"bubble_color"`
+				QismoKey            string        `json:"qismo_key"`
+				DirectLoginToken    interface{}   `json:"direct_login_token"`
+				LastLogin           string        `json:"last_login"`
+				ForceOffline        bool          `json:"force_offline"`
+				DeletedAt           interface{}   `json:"deleted_at"`
+				TypeAsString        string        `json:"type_as_string"`
+				AssignedRules       []interface{} `json:"assigned_rules"`
+			} `json:"user"`
+		} `json:"service"`
+		RoomInfo struct {
+			Room struct {
+				RoomAvatarURL string `json:"room_avatar_url"`
+				RoomChannelID string `json:"room_channel_id"`
+				RoomID        string `json:"room_id"`
+				RoomName      string `json:"room_name"`
+				RoomOptions   string `json:"room_options"`
+				RoomType      string `json:"room_type"`
+			} `json:"room"`
+		} `json:"room_info"`
+	} `json:"data"`
+}

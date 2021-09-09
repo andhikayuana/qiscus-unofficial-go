@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/andhikayuana/qiscus-unofficial-go"
 )
@@ -120,6 +121,118 @@ func (m *MultichannelImpl) SetToogleBotInRoom(roomID string, isActive bool) (*Se
 	url := fmt.Sprintf("%s/bot/%s/activate", m.APIBase(), roomID)
 
 	req := SetToogleBotInRoomReq{IsActive: isActive}
+	jsonReq, _ := json.Marshal(req)
+
+	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// GetAllAgents get all agent with scope search included
+func (m *MultichannelImpl) GetAllAgents(req *GetAllAgentsReq) (*GetAllAgentsResponse, *qiscus.Error) {
+	resp := &GetAllAgentsResponse{}
+	url := fmt.Sprintf("%s/api/v2/admin/agents", m.APIBase())
+
+	// Set default page
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 20
+	}
+
+	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	r.AddParameter("page", strconv.Itoa(req.Page))
+	r.AddParameter("limit", strconv.Itoa(req.Limit))
+	r.AddParameter("search", req.Search)
+	r.AddParameter("scope", req.Scope)
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// AssignAgent assign agent
+func (m *MultichannelImpl) AssignAgent(req *AssignAgentReq) (*AssignAgentResponse, *qiscus.Error) {
+	resp := &AssignAgentResponse{}
+	url := fmt.Sprintf("%s/api/v1/admin/service/assign_agent", m.APIBase())
+
+	// Default max agent
+	if req.MaxAgent <= 0 {
+		req.MaxAgent = 5
+	}
+
+	jsonReq, _ := json.Marshal(req)
+
+	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// GetAgentsByDivision get agents by division
+func (m *MultichannelImpl) GetAgentsByDivision(req *GetAgentsByDivisionReq) (*GetAgentsByDivisionResponse, *qiscus.Error) {
+	resp := &GetAgentsByDivisionResponse{}
+	url := fmt.Sprintf("%s/api/v2/admin/agents/by_division", m.APIBase())
+
+	// Set default page
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 20
+	}
+
+	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	r.AddParameter("page", strconv.Itoa(req.Page))
+	r.AddParameter("limit", strconv.Itoa(req.Limit))
+	r.AddParameter("is_available", strconv.FormatBool(req.IsAvailable))
+	r.AddParameter("sort", req.Sort)
+
+	for _, divisionID := range req.DivisionIDs {
+		r.AddParameter("division_ids[]", divisionID)
+	}
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// GetAllDivision get all division
+func (m *MultichannelImpl) GetAllDivision(req *GetAllDivisionReq) (*GetAllDivisionResponse, *qiscus.Error) {
+	resp := &GetAllDivisionResponse{}
+	url := fmt.Sprintf("%s/api/v2/divisions", m.APIBase())
+
+	// Set default page
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 20
+	}
+
+	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	r.AddParameter("page", strconv.Itoa(req.Page))
+	r.AddParameter("limit", strconv.Itoa(req.Limit))
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// MarkAsResolved mark as resolved room
+func (m *MultichannelImpl) MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolvedResponse, *qiscus.Error) {
+	resp := &MarkAsResolvedResponse{}
+	url := fmt.Sprintf("%s/api/v1/admin/service/mark_as_resolved", m.APIBase())
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
