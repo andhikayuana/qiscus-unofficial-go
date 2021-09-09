@@ -25,10 +25,10 @@ type SDK interface {
 	GetOrCreateRoomWithTarget(req *GetOrCreateRoomWithTargetReq) (*CreateRoomResponse, *qiscus.Error)
 	GetRoomsInfo(roomIDs []string) (*GetRoomsInfoResponse, *qiscus.Error)
 	UpdateRoom(req *UpdateRoomReq) (*UpdateRoomResponse, *qiscus.Error)
-	GetRoomParticipants(roomID string, page, limit int) (*GetRoomParticipantsResponse, *qiscus.Error)
+	GetRoomParticipants(req *GetRoomParticipantsReq) (*GetRoomParticipantsResponse, *qiscus.Error)
 	AddRoomParticipants(req *AddRoomParticipantsReq) (*AddRoomParticipantsResponse, *qiscus.Error)
 	RemoveRoomParticipants(req *RemoveRoomParticipantsReq) (*RemoveRoomParticipantsResponse, *qiscus.Error)
-	GetUserRooms(userID string, page, limit int) (*GetUserRoomsResponse, *qiscus.Error)
+	GetUserRooms(req *GetUserRoomsReq) (*GetUserRoomsResponse, *qiscus.Error)
 	PostComment(req *PostCommentReq) (*PostCommentResponse, *qiscus.Error)
 }
 

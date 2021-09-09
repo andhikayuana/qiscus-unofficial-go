@@ -130,16 +130,26 @@ func (s *SDKImpl) UpdateRoom(req *UpdateRoomReq) (*UpdateRoomResponse, *qiscus.E
 }
 
 // GetRoomParticipants: Represent Get room participant
-func (s *SDKImpl) GetRoomParticipants(roomID string, page, limit int) (*GetRoomParticipantsResponse, *qiscus.Error) {
+func (s *SDKImpl) GetRoomParticipants(req *GetRoomParticipantsReq) (*GetRoomParticipantsResponse, *qiscus.Error) {
 	resp := &GetRoomParticipantsResponse{}
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_room_participants", s.APIBase())
+
+	// Set default page
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 20
+	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
 	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
 	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
-	r.AddParameter("room_id", roomID)
-	r.AddParameter("page", strconv.Itoa(page))
-	r.AddParameter("limit", strconv.Itoa(limit))
+	r.AddParameter("room_id", req.RoomID)
+	r.AddParameter("page", strconv.Itoa(req.Page))
+	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	err := r.DoRequest()
 
 	return resp, err
@@ -174,16 +184,26 @@ func (s *SDKImpl) RemoveRoomParticipants(req *RemoveRoomParticipantsReq) (*Remov
 }
 
 // GetUserRooms Get user rooms
-func (s *SDKImpl) GetUserRooms(userID string, page, limit int) (*GetUserRoomsResponse, *qiscus.Error) {
+func (s *SDKImpl) GetUserRooms(req *GetUserRoomsReq) (*GetUserRoomsResponse, *qiscus.Error) {
 	resp := &GetUserRoomsResponse{}
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_user_rooms", s.APIBase())
+
+	// Set default page
+	if req.Page <= 0 {
+		req.Page = 1
+	}
+
+	// Set default limit
+	if req.Limit <= 0 {
+		req.Limit = 20
+	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
 	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
 	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
-	r.AddParameter("user_id", userID)
-	r.AddParameter("page", strconv.Itoa(page))
-	r.AddParameter("limit", strconv.Itoa(limit))
+	r.AddParameter("user_id", req.UserID)
+	r.AddParameter("page", strconv.Itoa(req.Page))
+	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	err := r.DoRequest()
 
 	return resp, err

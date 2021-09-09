@@ -50,6 +50,5 @@ func main() {
 		Password: "123123123",
 		Username: "User Demo",
 	})
-
 	fmt.Println(resp2)
 }

@@ -56,3 +56,17 @@ type PostCommentReq struct {
 	Extras  interface{} `json:"extras"`
 	Payload interface{} `json:"payload"`
 }
+
+// GetRoomParticipantsReq: Represent Get room participant request payload
+type GetRoomParticipantsReq struct {
+	RoomID string `json:"room_id"`
+	Page   int    `json:"page"`
+	Limit  int    `json:"limit"`
+}
+
+// GetUserRoomsReq: Represent Get user room request payload
+type GetUserRoomsReq struct {
+	UserID string `json:"user_id"`
+	Page   int    `json:"page"`
+	Limit  int    `json:"limit"`
+}
