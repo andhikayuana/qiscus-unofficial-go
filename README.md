@@ -48,7 +48,7 @@ func main() {
 	}
 
 	// Sample Multichannel method.
-	resp, _ := multichannelClient.GetRoomTags("48627228")
+	resp, _ := multichannelClient.GetRoomTags("12345678")
 	fmt.Println(resp)
 
 
@@ -65,7 +65,7 @@ func main() {
 	// Sample SDK method.
 	resp, _ := sdkClient.LoginOrRegister(&sdk.LoginOrRegisterReq{
 		UserID:   "guest@qiscus.com",
-		Password: "123123123",
+		Password: "12345678",
 		Username: "User Demo",
 	})
 	fmt.Println(resp)
@@ -93,4 +93,16 @@ t := 100 * time.Second
 qiscus.DefaultGoHttpClient = &http.Client{
 	Timeout: t,
 }
+```
+
+## 4. Error Handling
+Several functions in the product allow to throw an error, below is an qiscus error object you can use:
+```go
+_, err := multichannelClient.GetRoomTags("12345678")
+if err != nil {
+		message := err.GetMessage()               // general message error
+		statusCode := err.GetStatusCode()         // HTTP status code e.g: 400, 401, etc.
+		rawApiResponse := err.GetRawApiResponse() // raw Go HTTP response object
+		rawError := err.GetRawError()             // raw Go err object
+	}
 ```
