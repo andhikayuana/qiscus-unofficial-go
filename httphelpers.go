@@ -49,14 +49,16 @@ type HttpRequestImpl struct {
 	Headers    map[string]string
 	Parameters map[string][]string
 	Response   interface{}
+	HttpClient *http.Client
 }
 
 func NewHttpRequest(method string, url string, body io.Reader, response interface{}) HttpRequest {
 	return &HttpRequestImpl{
-		Method:   method,
-		URL:      url,
-		Body:     body,
-		Response: response,
+		Method:     method,
+		URL:        url,
+		Body:       body,
+		Response:   response,
+		HttpClient: DefaultGoHttpClient,
 	}
 }
 
@@ -76,7 +78,6 @@ func (r *HttpRequestImpl) AddParameter(name, value string) {
 
 func (r *HttpRequestImpl) DoRequest() *Error {
 	// NewRequest is used by Call to generate an http.Request.
-	client := &http.Client{}
 	req, err := http.NewRequest(r.Method, r.URL, r.Body)
 	if err != nil {
 		return &Error{
@@ -106,7 +107,7 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
-	res, err := client.Do(req)
+	res, err := r.HttpClient.Do(req)
 	if err != nil {
 		return &Error{
 			Message:    fmt.Sprintf("error when request via http client, cannot send request with error: %s", err.Error()),
