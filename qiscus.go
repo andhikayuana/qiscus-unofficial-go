@@ -14,4 +14,7 @@ var (
 
 	//DefaultGoHttpClient default Go HTTP Client for Qiscus HttpClient API
 	DefaultGoHttpClient = &http.Client{Timeout: DefaultHttpTimeout}
+
+	//DefaultLoggerLevel logging level that will be used for config globally by Qiscus logger
+	DefaultLoggerLevel = &LoggerImpl{LogLevel: LogError}
 )

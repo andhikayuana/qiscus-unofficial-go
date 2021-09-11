@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // APIResponse : is a structs that may come from Qiscus API endpoints
@@ -50,6 +51,7 @@ type HttpRequestImpl struct {
 	Parameters map[string][]string
 	Response   interface{}
 	HttpClient *http.Client
+	Logger     Logger
 }
 
 func NewHttpRequest(method string, url string, body io.Reader, response interface{}) HttpRequest {
@@ -59,6 +61,7 @@ func NewHttpRequest(method string, url string, body io.Reader, response interfac
 		Body:       body,
 		Response:   response,
 		HttpClient: DefaultGoHttpClient,
+		Logger:     DefaultLoggerLevel,
 	}
 }
 
@@ -80,6 +83,7 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	// NewRequest is used by Call to generate an http.Request.
 	req, err := http.NewRequest(r.Method, r.URL, r.Body)
 	if err != nil {
+		r.Logger.Error("Cannot create Qiscus request: %v", err)
 		return &Error{
 			Message:  fmt.Sprintf("error request creation failed: %s", err.Error()),
 			RawError: err,
@@ -107,8 +111,12 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
+	r.Logger.Info("%v Request %v %v", req.Method, req.URL, req.Proto)
+
+	start := time.Now()
 	res, err := r.HttpClient.Do(req)
 	if err != nil {
+		r.Logger.Error("Cannot send request: %v", err.Error())
 		return &Error{
 			Message:    fmt.Sprintf("error when request via http client, cannot send request with error: %s", err.Error()),
 			StatusCode: res.StatusCode,
@@ -117,9 +125,11 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	}
 
 	defer res.Body.Close()
+	r.Logger.Info("Request completed in %v", time.Since(start))
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
+		r.Logger.Error("Request failed: %v", err)
 		return &Error{
 			Message:    "cannot read response body: " + err.Error(),
 			StatusCode: res.StatusCode,
@@ -128,6 +138,7 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	}
 
 	rawResponse := newAPIResponse(res, resBody)
+	r.Logger.Debug("Response body: %v", string(rawResponse.RawBody))
 
 	if r.Response != nil {
 		if err = json.Unmarshal(resBody, &r.Response); err != nil {

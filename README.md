@@ -95,14 +95,26 @@ qiscus.DefaultGoHttpClient = &http.Client{
 }
 ```
 
+### 3.3 Log Configuration
+By default, the log level will use `LogError` level. You have option to change the default log level configuration with global variable `qiscus.DefaultLoggerLevel`:
+```go
+qiscus.DefaultLoggerLevel = &qiscus.LoggerImpl{LogLevel: qiscus.LogInfo}
+
+// Details Log Level
+// NoLogging    : sets a logger to not show the messages
+// LogError     : sets a logger to show error messages only.
+// LogInfo      : sets a logger to show information messages
+// LogDebug     : sets a logger to show informational messages for debugging
+```
+
 ## 4. Error Handling
 Several functions in the product allow to throw an error, below is an qiscus error object you can use:
 ```go
 _, err := multichannelClient.GetRoomTags("12345678")
 if err != nil {
-		message := err.GetMessage()               // general message error
-		statusCode := err.GetStatusCode()         // HTTP status code e.g: 400, 401, etc.
-		rawApiResponse := err.GetRawApiResponse() // raw Go HTTP response object
-		rawError := err.GetRawError()             // raw Go err object
-	}
+	message := err.GetMessage()               // general message error
+	statusCode := err.GetStatusCode()         // HTTP status code e.g: 400, 401, etc.
+	rawApiResponse := err.GetRawApiResponse() // raw Go HTTP response object
+	rawError := err.GetRawError()             // raw Go err object
+}
 ```
