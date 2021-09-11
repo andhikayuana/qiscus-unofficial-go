@@ -109,7 +109,7 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	res, err := client.Do(req)
 	if err != nil {
 		return &Error{
-			Message:    fmt.Sprintf("error when request via HttpClient, cannot send request with error: %s", err.Error()),
+			Message:    fmt.Sprintf("error when request via http client, cannot send request with error: %s", err.Error()),
 			StatusCode: res.StatusCode,
 			RawError:   err,
 		}
@@ -131,7 +131,7 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	if r.Response != nil {
 		if err = json.Unmarshal(resBody, &r.Response); err != nil {
 			return &Error{
-				Message:        fmt.Sprintf("invalid body response, parse error during API request to Qiscus with message: %s", err.Error()),
+				Message:        fmt.Sprintf("invalid body response, parse error during api request to qiscus with message: %s", err.Error()),
 				StatusCode:     res.StatusCode,
 				RawError:       err,
 				RawApiResponse: rawResponse,
@@ -142,10 +142,10 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	// Check StatusCode from Qiscus HTTP response api StatusCode
 	if res.StatusCode >= 400 {
 		return &Error{
-			Message:        fmt.Sprintf("qiscus API is returning API error. HTTP status code: %s  API response: %s", strconv.Itoa(res.StatusCode), string(resBody)),
+			Message:        fmt.Sprintf("qiscus api is returning error. http status code: %s  api response: %s", strconv.Itoa(res.StatusCode), string(resBody)),
 			StatusCode:     res.StatusCode,
-			RawApiResponse: rawResponse,
 			RawError:       err,
+			RawApiResponse: rawResponse,
 		}
 	}
 
