@@ -2,7 +2,7 @@
 
 This library is the abstraction of Qiscus SDK & Multichannel API for access from applications written with Go.
 
-## Installation
+## 1. Installation
 Install qiscus-unofficial-go with:
 
 ```sh
@@ -19,7 +19,7 @@ import (
 ```
 with `$product$` is the product of Qiscus such as `sdk` and `multichannel`.
 
-## Usage
+## 2. Usage
 ```go
 package main
 
@@ -47,10 +47,6 @@ func main() {
 		panic(err)
 	}
 
-	// Default Multichannel base is https://multichannel.qiscus.com,
-	// you can use SetAPIBase() to override.
-	multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
-
 	// Sample Multichannel method.
 	resp, _ := multichannelClient.GetRoomTags("48627228")
 	fmt.Println(resp)
@@ -66,10 +62,6 @@ func main() {
 		panic(err)
 	}
 
-	// Default SDK base is https://api.qiscus.com,
-	// you can use SetAPIBase() to override.
-	sdkClient.SetAPIBase("https://api2.qiscus.com")
-
 	// Sample SDK method.
 	resp, _ := sdkClient.LoginOrRegister(&sdk.LoginOrRegisterReq{
 		UserID:   "guest@qiscus.com",
@@ -80,4 +72,25 @@ func main() {
 
 }
 
+```
+
+## 3. Advance Usage
+### 3.1 Override Base API URL
+```go
+sdkClient,_ := sdk.NewSDKFromEnv()
+// Default SDK base is https://api.qiscus.com, you can use SetAPIBase() to override.
+sdkClient.SetAPIBase("https://api2.qiscus.com")
+
+multichannelClient, _ := multichannel.NewMultichannelFromEnv()
+// Default Multichannel base is https://multichannel.qiscus.com, you can use SetAPIBase() to override.
+multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
+```
+
+### 3.2 Override HTTP Client timeout
+By default, timeout value for HTTP Client 80 seconds. But you can override the HTTP client default config from global variable `qiscus.DefaultGoHttpClient`:
+```go
+t := 100 * time.Second
+qiscus.DefaultGoHttpClient = &http.Client{
+	Timeout: t,
+}
 ```
