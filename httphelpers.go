@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // APIResponse : is a structs that may come from Qiscus API endpoints
@@ -49,14 +50,18 @@ type HttpRequestImpl struct {
 	Headers    map[string]string
 	Parameters map[string][]string
 	Response   interface{}
+	HttpClient *http.Client
+	Logger     Logger
 }
 
 func NewHttpRequest(method string, url string, body io.Reader, response interface{}) HttpRequest {
 	return &HttpRequestImpl{
-		Method:   method,
-		URL:      url,
-		Body:     body,
-		Response: response,
+		Method:     method,
+		URL:        url,
+		Body:       body,
+		Response:   response,
+		HttpClient: DefaultGoHttpClient,
+		Logger:     DefaultLoggerLevel,
 	}
 }
 
@@ -76,9 +81,9 @@ func (r *HttpRequestImpl) AddParameter(name, value string) {
 
 func (r *HttpRequestImpl) DoRequest() *Error {
 	// NewRequest is used by Call to generate an http.Request.
-	client := &http.Client{}
 	req, err := http.NewRequest(r.Method, r.URL, r.Body)
 	if err != nil {
+		r.Logger.Error("Cannot create Qiscus request: %v", err)
 		return &Error{
 			Message:  fmt.Sprintf("error request creation failed: %s", err.Error()),
 			RawError: err,
@@ -106,19 +111,25 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
-	res, err := client.Do(req)
+	r.Logger.Info("%v Request %v %v", req.Method, req.URL, req.Proto)
+
+	start := time.Now()
+	res, err := r.HttpClient.Do(req)
 	if err != nil {
+		r.Logger.Error("Cannot send request: %v", err.Error())
 		return &Error{
-			Message:    fmt.Sprintf("error when request via HttpClient, cannot send request with error: %s", err.Error()),
+			Message:    fmt.Sprintf("error when request via http client, cannot send request with error: %s", err.Error()),
 			StatusCode: res.StatusCode,
 			RawError:   err,
 		}
 	}
 
 	defer res.Body.Close()
+	r.Logger.Info("Request completed in %v", time.Since(start))
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
+		r.Logger.Error("Request failed: %v", err)
 		return &Error{
 			Message:    "cannot read response body: " + err.Error(),
 			StatusCode: res.StatusCode,
@@ -127,11 +138,12 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	}
 
 	rawResponse := newAPIResponse(res, resBody)
+	r.Logger.Debug("Response body: %v", string(rawResponse.RawBody))
 
 	if r.Response != nil {
 		if err = json.Unmarshal(resBody, &r.Response); err != nil {
 			return &Error{
-				Message:        fmt.Sprintf("invalid body response, parse error during API request to Qiscus with message: %s", err.Error()),
+				Message:        fmt.Sprintf("invalid body response, parse error during api request to qiscus with message: %s", err.Error()),
 				StatusCode:     res.StatusCode,
 				RawError:       err,
 				RawApiResponse: rawResponse,
@@ -142,10 +154,10 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	// Check StatusCode from Qiscus HTTP response api StatusCode
 	if res.StatusCode >= 400 {
 		return &Error{
-			Message:        fmt.Sprintf("qiscus API is returning API error. HTTP status code: %s  API response: %s", strconv.Itoa(res.StatusCode), string(resBody)),
+			Message:        fmt.Sprintf("qiscus api is returning error. http status code: %s  api response: %s", strconv.Itoa(res.StatusCode), string(resBody)),
 			StatusCode:     res.StatusCode,
-			RawApiResponse: rawResponse,
 			RawError:       err,
+			RawApiResponse: rawResponse,
 		}
 	}
 

@@ -2,7 +2,7 @@
 
 This library is the abstraction of Qiscus SDK & Multichannel API for access from applications written with Go.
 
-## Installation
+## 1. Installation
 Install qiscus-unofficial-go with:
 
 ```sh
@@ -19,7 +19,7 @@ import (
 ```
 with `$product$` is the product of Qiscus such as `sdk` and `multichannel`.
 
-## Usage
+## 2. Usage
 ```go
 package main
 
@@ -47,12 +47,8 @@ func main() {
 		panic(err)
 	}
 
-	// Default Multichannel base is https://multichannel.qiscus.com,
-	// you can use SetAPIBase() to override.
-	multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
-
 	// Sample Multichannel method.
-	resp, _ := multichannelClient.GetRoomTags("48627228")
+	resp, _ := multichannelClient.GetRoomTags("12345678")
 	fmt.Println(resp)
 
 
@@ -66,18 +62,59 @@ func main() {
 		panic(err)
 	}
 
-	// Default SDK base is https://api.qiscus.com,
-	// you can use SetAPIBase() to override.
-	sdkClient.SetAPIBase("https://api2.qiscus.com")
-
 	// Sample SDK method.
 	resp, _ := sdkClient.LoginOrRegister(&sdk.LoginOrRegisterReq{
 		UserID:   "guest@qiscus.com",
-		Password: "123123123",
+		Password: "12345678",
 		Username: "User Demo",
 	})
 	fmt.Println(resp)
 
 }
 
+```
+
+## 3. Advance Usage
+### 3.1 Override Base API URL
+```go
+sdkClient,_ := sdk.NewSDKFromEnv()
+// Default SDK base is https://api.qiscus.com, you can use SetAPIBase() to override.
+sdkClient.SetAPIBase("https://api2.qiscus.com")
+
+multichannelClient, _ := multichannel.NewMultichannelFromEnv()
+// Default Multichannel base is https://multichannel.qiscus.com, you can use SetAPIBase() to override.
+multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
+```
+
+### 3.2 Override HTTP Client timeout
+By default, timeout value for HTTP Client 80 seconds. But you can override the HTTP client default config from global variable `qiscus.DefaultGoHttpClient`:
+```go
+t := 100 * time.Second
+qiscus.DefaultGoHttpClient = &http.Client{
+	Timeout: t,
+}
+```
+
+### 3.3 Log Configuration
+By default, the log level will use `LogError` level. You have option to change the default log level configuration with global variable `qiscus.DefaultLoggerLevel`:
+```go
+qiscus.DefaultLoggerLevel = &qiscus.LoggerImpl{LogLevel: qiscus.LogInfo}
+
+// Details Log Level
+// NoLogging    : sets a logger to not show the messages
+// LogError     : sets a logger to show error messages only.
+// LogInfo      : sets a logger to show information messages
+// LogDebug     : sets a logger to show informational messages for debugging
+```
+
+## 4. Error Handling
+Several functions in the product allow to throw an error, below is an qiscus error object you can use:
+```go
+_, err := multichannelClient.GetRoomTags("12345678")
+if err != nil {
+	message := err.GetMessage()               // general message error
+	statusCode := err.GetStatusCode()         // HTTP status code e.g: 400, 401, etc.
+	rawApiResponse := err.GetRawApiResponse() // raw Go HTTP response object
+	rawError := err.GetRawError()             // raw Go err object
+}
 ```
