@@ -24,7 +24,7 @@ type Multichannel interface {
 
 	// Room
 	GetRoomTags(roomID string) (*RoomTagsResponse, *qiscus.Error)
-	CreateRoomTag(roomID, tag string) (*CreateRoomTagResponse, *qiscus.Error)
+	CreateRoomTag(rreq *CreateRoomTagReq) (*CreateRoomTagResponse, *qiscus.Error)
 	CreateAdditionalInfoRoomWithReplace(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
 	GetAdditionalInfoRoom(roomID string) (*GetAdditionalInfoRoomResponse, *qiscus.Error)
 	CreateAdditionalInfoRoom(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
@@ -32,7 +32,7 @@ type Multichannel interface {
 	GetRoomByRoomID(roomID string) (*GetRoomByRoomIDResponse, *qiscus.Error)
 
 	// BOT
-	SendMessageTextByBot(roomID, message string) *qiscus.Error
+	SendMessageTextByBot(req *SendMessageTextByBotReq) *qiscus.Error
 	SetToogleBotInRoom(roomID string, isActive bool) (*SetToogleBotInRoomResponse, *qiscus.Error)
 
 	// Agent & Channel

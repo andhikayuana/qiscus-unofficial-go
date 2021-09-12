@@ -23,11 +23,9 @@ func (m *MultichannelImpl) GetRoomTags(roomID string) (*RoomTagsResponse, *qiscu
 }
 
 // CreateRoomTag create room tag
-func (m *MultichannelImpl) CreateRoomTag(roomID, tag string) (*CreateRoomTagResponse, *qiscus.Error) {
+func (m *MultichannelImpl) CreateRoomTag(req *CreateRoomTagReq) (*CreateRoomTagResponse, *qiscus.Error) {
 	resp := &CreateRoomTagResponse{}
 	url := fmt.Sprintf("%s/api/v1/room_tag/create", m.APIBase())
-
-	req := CreateRoomTagReq{RoomID: roomID, Tag: tag}
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
@@ -98,15 +96,22 @@ func (m *MultichannelImpl) CreateAdditionalInfoRoom(roomID string, req *CreateAd
 }
 
 // SendMessageTextByBot send message text by bot
-func (m *MultichannelImpl) SendMessageTextByBot(roomID, message string) *qiscus.Error {
+func (m *MultichannelImpl) SendMessageTextByBot(req *SendMessageTextByBotReq) *qiscus.Error {
 	url := fmt.Sprintf("%s/%s/bot", m.APIBase(), m.AppCode())
 
-	req := SendMessageTextByBotReq{}
-	req.SenderEmail = m.AdminEmail()
-	req.Type = "text"
-	req.Message = message
-	req.RoomID = roomID
-	jsonReq, _ := json.Marshal(req)
+	newReq := struct {
+		SenderEmail string `json:"sender_email"`
+		Message     string `json:"message"`
+		RoomID      string `json:"room_id"`
+		Type        string `json:"type"`
+	}{
+		SenderEmail: m.AdminEmail(),
+		Message:     req.Message,
+		RoomID:      req.RoomID,
+		Type:        "text",
+	}
+
+	jsonReq, _ := json.Marshal(newReq)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), nil)
 	r.AddHeader("Authorization", m.AdminToken())

@@ -18,10 +18,8 @@ type CreateAdditionalInfoRoomReq struct {
 
 // SendMessageTextByBOTReq: Represent Send message text by Bot request payload
 type SendMessageTextByBotReq struct {
-	SenderEmail string `json:"sender_email"`
-	Message     string `json:"message"`
-	Type        string `json:"type"`
-	RoomID      string `json:"room_id"`
+	Message string
+	RoomID  string
 }
 
 // SetToogleBotInRoomReq: Represent Set toogle room request payload

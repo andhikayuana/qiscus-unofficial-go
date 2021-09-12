@@ -28,7 +28,7 @@ func main() {
 	// multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
 
 	// Sample Multichannel method
-	resp, _ := multichannelClient.GetRoomTags("48627228")
+	resp, _ := multichannelClient.GetRoomTags("123123123")
 	fmt.Println(resp)
 
 	// Initiate client for SDK
