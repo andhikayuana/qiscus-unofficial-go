@@ -37,15 +37,10 @@ type LoginAdminReq struct {
 
 // GetAllAgentsReq: Represent Get all agents request payload
 type GetAllAgentsReq struct {
-	// Page: default 1
-	Page int
-
-	// Limit: default 20
-	Limit  int
+	Page   int // default 1
+	Limit  int // default 20
 	Search string
-
-	// Scope: either `division`, `name`, or `email`, or default
-	Scope string
+	Scope  string // either `division`, `name`, or `email`, or default
 }
 
 // AssignAgentReq: Represent Assign agent request payload
@@ -53,34 +48,22 @@ type AssignAgentReq struct {
 	RoomID             string `json:"room_id"`
 	AgentID            string `json:"agent_id"`
 	ReplaceLatestAgent bool   `json:"replace_latest_agent"`
-
-	// MaxAgent: default max agent is 5
-	MaxAgent int `json:"max_agent"`
+	MaxAgent           int    `json:"max_agent"` // default max agent is 5
 }
 
 // GetAgentsByDivisionReq: Represent Get agents by division request payload
 type GetAgentsByDivisionReq struct {
-	// Page: default 1
-	Page int
-
-	// Limit: default 20
-	Limit       int
+	Page        int // default 1
+	Limit       int // default 20
 	DivisionIDs []string
-
-	// IsAvailable: online availability filter, default all, can be true of false
-	IsAvailable bool
-
-	// Sort: default asc (less customer count) can be desc
-	Sort string
+	IsAvailable bool   // online availability filter, default all, can be true or false
+	Sort        string // default asc (less customer count) can be desc
 }
 
 // GetAllDivisionReq: Represent Get all division request payload
 type GetAllDivisionReq struct {
-	// Page: default 1
-	Page int
-
-	// Limit: default 20
-	Limit int
+	Page  int // default 1
+	Limit int // default 20
 }
 
 // MarkAsResolvedReq: Represent Mark as resolved request payload

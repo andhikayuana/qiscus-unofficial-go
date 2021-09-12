@@ -30,6 +30,16 @@ type SDK interface {
 	RemoveRoomParticipants(req *RemoveRoomParticipantsReq) (*RemoveRoomParticipantsResponse, *qiscus.Error)
 	GetUserRooms(req *GetUserRoomsReq) (*GetUserRoomsResponse, *qiscus.Error)
 	PostComment(req *PostCommentReq) (*PostCommentResponse, *qiscus.Error)
+	LoadComments(req *LoadCommentsReq) (*LoadCommentsResponse, *qiscus.Error)
+	PostSystemEventMessage(req *PostSystemEventMessageReq) (*PostSystemEventMessageResponse, *qiscus.Error)
+	GetUnreadCount(req *GetUnreadCountReq) (*GetUnreadCountResponse, *qiscus.Error)
+	GetUsers(req *GetUsersReq) (*GetUsersResponse, *qiscus.Error)
+	LoadCommentsWithRange(req *LoadCommentsWithRangeReq) (*LoadCommentsWithRangeResponse, *qiscus.Error)
+	GetOrCreateChannel(req *GetOrCreateChannelReq) (*GetOrCreateChannelResponse, *qiscus.Error)
+	GetAverageReplyTimeUser(req *GetAverageReplyTimeUserReq) (*GetAverageReplyTimeUserResponse, *qiscus.Error)
+	GetWebhookLogs(req *GetWebhookLogsReq) (*GetWebhookLogsResponse, *qiscus.Error)
+	DeactivateUser(req *DeactivateUserReq) (*DeactivateUserResponse, *qiscus.Error)
+	ReactivateUser(req *ReactivateUserReq) (*ReactivateUserResponse, *qiscus.Error)
 }
 
 // SDKImpl bundles data needed by a large number of methods in order to interact with the SDK API.
