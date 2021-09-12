@@ -241,3 +241,27 @@ func (m *MultichannelImpl) MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolv
 
 	return resp, err
 }
+
+// GetAllChannels get all channels
+func (m *MultichannelImpl) GetAllChannels() (*GetAllChannelsResponse, *qiscus.Error) {
+	resp := &GetAllChannelsResponse{}
+	url := fmt.Sprintf("%s/api/v2/channels", m.APIBase())
+
+	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	err := r.DoRequest()
+
+	return resp, err
+}
+
+// GetRoomByRoomID get room by room id
+func (m *MultichannelImpl) GetRoomByRoomID(roomID string) (*GetRoomByRoomIDResponse, *qiscus.Error) {
+	resp := &GetRoomByRoomIDResponse{}
+	url := fmt.Sprintf("%s/api/v2/customer_rooms/%s", m.APIBase(), roomID)
+
+	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
+	r.AddHeader("Authorization", m.AdminToken())
+	err := r.DoRequest()
+
+	return resp, err
+}

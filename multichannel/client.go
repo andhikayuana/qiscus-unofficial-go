@@ -29,6 +29,7 @@ type Multichannel interface {
 	GetAdditionalInfoRoom(roomID string) (*GetAdditionalInfoRoomResponse, *qiscus.Error)
 	CreateAdditionalInfoRoom(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
 	MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolvedResponse, *qiscus.Error)
+	GetRoomByRoomID(roomID string) (*GetRoomByRoomIDResponse, *qiscus.Error)
 
 	// BOT
 	SendMessageTextByBot(roomID, message string) *qiscus.Error
@@ -39,6 +40,7 @@ type Multichannel interface {
 	AssignAgent(req *AssignAgentReq) (*AssignAgentResponse, *qiscus.Error)
 	GetAgentsByDivision(req *GetAgentsByDivisionReq) (*GetAgentsByDivisionResponse, *qiscus.Error)
 	GetAllDivision(req *GetAllDivisionReq) (*GetAllDivisionResponse, *qiscus.Error)
+	GetAllChannels() (*GetAllChannelsResponse, *qiscus.Error)
 }
 
 // // MultichannelImpl bundles data needed by a large number of methods in order to interact with the Multichannel API.

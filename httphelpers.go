@@ -90,16 +90,16 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
-	// Set Params
-	params := req.URL.Query()
+	// Set Parameters
 	if r.Parameters != nil && len(r.Parameters) > 0 {
+		params := req.URL.Query()
 		for name, values := range r.Parameters {
 			for _, value := range values {
 				params.Add(name, value)
 			}
 		}
+		req.URL.RawQuery = params.Encode()
 	}
-	req.URL.RawQuery = params.Encode()
 
 	// Set Headers
 	req.Header.Add("Content-Type", "application/json")

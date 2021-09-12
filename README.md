@@ -1,6 +1,6 @@
 # Unofficial Qiscus API for Golang
 
-This library is the abstraction of Qiscus SDK & Multichannel API for access from applications written with Go.
+This library is the abstraction of [Qiscus](https://www.qiscus.com) SDK & Multichannel API for access from applications written with Go.
 
 ## 1. Installation
 Install qiscus-unofficial-go with:
