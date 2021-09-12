@@ -388,3 +388,121 @@ type MarkAsResolvedResponse struct {
 		} `json:"room_info"`
 	} `json:"data"`
 }
+
+// GetAllChannelsResponse: Represent Get all channels response payload
+type GetAllChannelsResponse struct {
+	Data struct {
+		CustomChannels []struct {
+			ID                  int    `json:"id"`
+			WebhookURL          string `json:"webhook_url"`
+			LogoURL             string `json:"logo_url"`
+			IdentifierKey       string `json:"identifier_key"`
+			Name                string `json:"name"`
+			IsActive            bool   `json:"is_active"`
+			UseChannelResponder bool   `json:"use_channel_responder"`
+		} `json:"custom_channels"`
+		FbChannels []struct {
+			ID                  int    `json:"id"`
+			IsActive            bool   `json:"is_active"`
+			LongLivedToken      string `json:"long_lived_token"`
+			ProfileName         string `json:"profile_name"`
+			PageID              string `json:"page_id"`
+			BadgeURL            string `json:"badge_url"`
+			AppID               int    `json:"app_id"`
+			UseChannelResponder bool   `json:"use_channel_responder"`
+		} `json:"fb_channels"`
+		IgChannels []struct {
+			ID                  int    `json:"id"`
+			IsActive            bool   `json:"is_active"`
+			LongLivedToken      string `json:"long_lived_token"`
+			Name                string `json:"name"`
+			PageID              string `json:"page_id"`
+			BadgeURL            string `json:"badge_url"`
+			AppID               int    `json:"app_id"`
+			UseChannelResponder bool   `json:"use_channel_responder"`
+			IgID                string `json:"ig_id"`
+		} `json:"ig_channels"`
+		LineChannels []struct {
+			ID                  int    `json:"id"`
+			IsActive            bool   `json:"is_active"`
+			AccessToken         string `json:"access_token"`
+			SecretKey           string `json:"secret_key"`
+			BadgeURL            string `json:"badge_url"`
+			Name                string `json:"name"`
+			AppID               int    `json:"app_id"`
+			UseChannelResponder bool   `json:"use_channel_responder"`
+		} `json:"line_channels"`
+		QiscusChannels []struct {
+			ID                  int         `json:"id"`
+			IsActive            bool        `json:"is_active"`
+			AppCode             string      `json:"app_code"`
+			SecretKey           string      `json:"secret_key"`
+			Name                string      `json:"name"`
+			BadgeURL            interface{} `json:"badge_url"`
+			AppID               int         `json:"app_id"`
+			UseChannelResponder bool        `json:"use_channel_responder"`
+		} `json:"qiscus_channels"`
+		TelegramChannels []struct {
+			ID                  int         `json:"id"`
+			IsActive            bool        `json:"is_active"`
+			Name                string      `json:"name"`
+			Username            string      `json:"username"`
+			BotToken            string      `json:"bot_token"`
+			BadgeURL            interface{} `json:"badge_url"`
+			UseChannelResponder bool        `json:"use_channel_responder"`
+			AppID               int         `json:"app_id"`
+		} `json:"telegram_channels"`
+		WaChannels []struct {
+			AllowIntlHsm               bool        `json:"allow_intl_hsm"`
+			AppID                      int         `json:"app_id"`
+			BadgeURL                   string      `json:"badge_url"`
+			BaseURL                    string      `json:"base_url"`
+			BusinessID                 interface{} `json:"business_id"`
+			BusinessVerificationStatus interface{} `json:"business_verification_status"`
+			CreatedAt                  string      `json:"created_at"`
+			EncodedToken               string      `json:"encoded_token"`
+			ForwardEnabled             bool        `json:"forward_enabled"`
+			ForwardURL                 interface{} `json:"forward_url"`
+			Hsm24Enabled               bool        `json:"hsm_24_enabled"`
+			ID                         int         `json:"id"`
+			IsActive                   bool        `json:"is_active"`
+			IsSslEnabled               bool        `json:"is_ssl_enabled"`
+			Name                       string      `json:"name"`
+			OnSync                     bool        `json:"on_sync"`
+			PhoneNumber                string      `json:"phone_number"`
+			PhoneNumberStatus          interface{} `json:"phone_number_status"`
+			Platform                   string      `json:"platform"`
+			ReadEnabled                bool        `json:"read_enabled"`
+			UpdatedAt                  string      `json:"updated_at"`
+			UseChannelResponder        bool        `json:"use_channel_responder"`
+		} `json:"wa_channels"`
+	} `json:"data"`
+}
+
+// GetRoomByRoomIDResponse: Represent Get room by room id response payload
+type GetRoomByRoomIDResponse struct {
+	Data struct {
+		CustomerRoom struct {
+			ChannelID               int         `json:"channel_id"`
+			ContactID               interface{} `json:"contact_id"`
+			ID                      int         `json:"id"`
+			IsHandledByBot          bool        `json:"is_handled_by_bot"`
+			IsResolved              bool        `json:"is_resolved"`
+			IsWaiting               bool        `json:"is_waiting"`
+			LastCommentSender       string      `json:"last_comment_sender"`
+			LastCommentSenderType   string      `json:"last_comment_sender_type"`
+			LastCommentText         string      `json:"last_comment_text"`
+			LastCommentTimestamp    time.Time   `json:"last_comment_timestamp"`
+			LastCustomerCommentText interface{} `json:"last_customer_comment_text"`
+			LastCustomerTimestamp   time.Time   `json:"last_customer_timestamp"`
+			Name                    string      `json:"name"`
+			RoomBadge               string      `json:"room_badge"`
+			RoomID                  string      `json:"room_id"`
+			RoomType                string      `json:"room_type"`
+			Source                  string      `json:"source"`
+			UserAvatarURL           string      `json:"user_avatar_url"`
+			UserID                  string      `json:"user_id"`
+		} `json:"customer_room"`
+	} `json:"data"`
+	Status int `json:"status"`
+}
