@@ -11,7 +11,7 @@ import (
 	"github.com/andhikayuana/qiscus-unofficial-go"
 )
 
-// Base Url the library uses to contact multichannel. Use SetAPIBase() to override
+// APIBase is base Url the library uses to contact multichannel. Use SetAPIBase() to override
 const APIBase = "https://multichannel.qiscus.com"
 
 // Multichannel defines the supported subset of the Multichannel API.
@@ -22,7 +22,6 @@ type Multichannel interface {
 	AdminEmail() string
 	SetAPIBase(address string)
 
-	// Room
 	GetRoomTags(roomID string) (*RoomTagsResponse, *qiscus.Error)
 	CreateRoomTag(rreq *CreateRoomTagReq) (*CreateRoomTagResponse, *qiscus.Error)
 	CreateAdditionalInfoRoomWithReplace(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
@@ -30,12 +29,8 @@ type Multichannel interface {
 	CreateAdditionalInfoRoom(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
 	MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolvedResponse, *qiscus.Error)
 	GetRoomByRoomID(roomID string) (*GetRoomByRoomIDResponse, *qiscus.Error)
-
-	// BOT
 	SendMessageTextByBot(req *SendMessageTextByBotReq) *qiscus.Error
-	SetToogleBotInRoom(roomID string, isActive bool) (*SetToogleBotInRoomResponse, *qiscus.Error)
-
-	// Agent & Channel
+	SetToggleBotInRoom(roomID string, isActive bool) (*SetToogleBotInRoomResponse, *qiscus.Error)
 	GetAllAgents(req *GetAllAgentsReq) (*GetAllAgentsResponse, *qiscus.Error)
 	AssignAgent(req *AssignAgentReq) (*AssignAgentResponse, *qiscus.Error)
 	GetAgentsByDivision(req *GetAgentsByDivisionReq) (*GetAgentsByDivisionResponse, *qiscus.Error)
@@ -43,7 +38,7 @@ type Multichannel interface {
 	GetAllChannels() (*GetAllChannelsResponse, *qiscus.Error)
 }
 
-// // MultichannelImpl bundles data needed by a large number of methods in order to interact with the Multichannel API.
+// MultichannelImpl bundles data needed by a large number of methods in order to interact with the Multichannel API.
 type MultichannelImpl struct {
 	apiBase    string
 	appCode    string
@@ -117,12 +112,12 @@ func (m *MultichannelImpl) AppCode() string {
 	return m.appCode
 }
 
-// AppID returns the Admin Token configured for this client
+// AdminToken returns the Admin Token configured for this client
 func (m *MultichannelImpl) AdminToken() string {
 	return m.adminToken
 }
 
-// AppID returns the Admin Email configured for this client
+// AdminEmail returns the Admin Email configured for this client
 func (m *MultichannelImpl) AdminEmail() string {
 	return m.adminEmail
 }

@@ -2,7 +2,7 @@ package multichannel
 
 import "time"
 
-// RoomTagsResponse : Represent Get room tags response payload
+// RoomTagsResponse is Represent Get room tags response payload
 type RoomTagsResponse struct {
 	Data []struct {
 		ID   int    `json:"id"`
@@ -10,7 +10,7 @@ type RoomTagsResponse struct {
 	} `json:"data"`
 }
 
-// CreateRoomTagResponse: Represent Create room tag response payload
+// CreateRoomTagResponse is Represent Create room tag response payload
 type CreateRoomTagResponse struct {
 	Data struct {
 		ID   int    `json:"id"`
@@ -18,7 +18,7 @@ type CreateRoomTagResponse struct {
 	} `json:"data"`
 }
 
-// CreateAdditionalInfoRoomResponse: Represents Create additional info room response payload
+// CreateAdditionalInfoRoomResponse is Represents Create additional info room response payload
 type CreateAdditionalInfoRoomResponse struct {
 	Data struct {
 		Extras struct {
@@ -41,7 +41,7 @@ type CreateAdditionalInfoRoomResponse struct {
 	} `json:"data"`
 }
 
-// GetAdditionalInfoRoomResponse: Represent Get additional info room response payload
+// GetAdditionalInfoRoomResponse is Represent Get additional info room response payload
 type GetAdditionalInfoRoomResponse struct {
 	Data struct {
 		Extras struct {
@@ -73,8 +73,8 @@ type GetAdditionalInfoRoomResponse struct {
 	} `json:"data"`
 }
 
-// SetToogleBotInRoomResponse: Represent Set toogle bot in room response payload
-type SetToogleBotInRoomResponse struct {
+// SetToggleBotInRoomResponse is Represent Set toggle bot in room response payload
+type SetToggleBotInRoomResponse struct {
 	Data struct {
 		ID                    int         `json:"id"`
 		AppID                 int         `json:"app_id"`
@@ -103,7 +103,7 @@ type SetToogleBotInRoomResponse struct {
 	} `json:"data"`
 }
 
-// LoginAdminResponse: Represent Login admin response payload
+// LoginAdminResponse is Represent Login admin response payload
 type LoginAdminResponse struct {
 	Data struct {
 		User struct {
@@ -215,7 +215,7 @@ type LoginAdminResponse struct {
 	} `json:"data"`
 }
 
-// GetAllAgentsResponse: Represent Get all agents response payload
+// GetAllAgentsResponse is Represent Get all agents response payload
 type GetAllAgentsResponse struct {
 	Data struct {
 		Agents []struct {
@@ -246,7 +246,7 @@ type GetAllAgentsResponse struct {
 	Status int `json:"status"`
 }
 
-// AssignAgentResponse: Represent Assign agent response payload
+// AssignAgentResponse is Represent Assign agent response payload
 type AssignAgentResponse struct {
 	Data struct {
 		AddedAgent struct {
@@ -276,7 +276,7 @@ type AssignAgentResponse struct {
 	} `json:"data"`
 }
 
-// GetAgentsByDivisionResponse: Represent get agents by divisions response payload
+// GetAgentsByDivisionResponse is Represent get agents by divisions response payload
 type GetAgentsByDivisionResponse struct {
 	Data []struct {
 		AvatarURL            string    `json:"avatar_url"`
@@ -308,7 +308,7 @@ type GetAgentsByDivisionResponse struct {
 	} `json:"meta"`
 }
 
-// GetAllDivisionResponse: Represent Get all division response payload
+// GetAllDivisionResponse is Represent Get all division response payload
 type GetAllDivisionResponse struct {
 	Data []struct {
 		AppID         int    `json:"app_id"`
@@ -326,7 +326,7 @@ type GetAllDivisionResponse struct {
 	} `json:"meta"`
 }
 
-// MarkAsResolvedResponse: Represent Mark as resolved response payload
+// MarkAsResolvedResponse is Represent Mark as resolved response payload
 type MarkAsResolvedResponse struct {
 	Data struct {
 		Service struct {
@@ -389,7 +389,7 @@ type MarkAsResolvedResponse struct {
 	} `json:"data"`
 }
 
-// GetAllChannelsResponse: Represent Get all channels response payload
+// GetAllChannelsResponse is Represent Get all channels response payload
 type GetAllChannelsResponse struct {
 	Data struct {
 		CustomChannels []struct {
@@ -479,7 +479,7 @@ type GetAllChannelsResponse struct {
 	} `json:"data"`
 }
 
-// GetRoomByRoomIDResponse: Represent Get room by room id response payload
+// GetRoomByRoomIDResponse is Represent Get room by room id response payload
 type GetRoomByRoomIDResponse struct {
 	Data struct {
 		CustomerRoom struct {

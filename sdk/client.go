@@ -7,7 +7,7 @@ import (
 	"github.com/andhikayuana/qiscus-unofficial-go"
 )
 
-// Base Url the library uses to contact multichannel. Use SetAPIBase() to override
+// APIBase is base url the library uses to contact multichannel. Use SetAPIBase() to override
 const APIBase = "https://api.qiscus.com"
 
 // SDK defines the supported subset of the SDK API.

@@ -53,7 +53,7 @@ func (s *SDKImpl) GetUserToken(userID string) (*GetUserTokenResponse, *qiscus.Er
 	return resp, err
 }
 
-// ReserUserToken Reset user token by user ID
+// ResetUserToken Reset user token by user ID
 func (s *SDKImpl) ResetUserToken(userID string) (*GetUserTokenResponse, *qiscus.Error) {
 	resp := &GetUserTokenResponse{}
 	url := fmt.Sprintf("%s/api/v2.1/rest/reset_user_token", s.APIBase())
@@ -129,7 +129,7 @@ func (s *SDKImpl) UpdateRoom(req *UpdateRoomReq) (*UpdateRoomResponse, *qiscus.E
 	return resp, err
 }
 
-// GetRoomParticipants: Represent Get room participant
+// GetRoomParticipants is Represent Get room participant
 func (s *SDKImpl) GetRoomParticipants(req *GetRoomParticipantsReq) (*GetRoomParticipantsResponse, *qiscus.Error) {
 	resp := &GetRoomParticipantsResponse{}
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_room_participants", s.APIBase())

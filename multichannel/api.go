@@ -61,7 +61,7 @@ func (m *MultichannelImpl) GetAdditionalInfoRoom(roomID string) (*GetAdditionalI
 	return resp, err
 }
 
-// CreateAdditionalInfoRoom create additional info room without replace exisiting data
+// CreateAdditionalInfoRoom create additional info room without replace existing data
 func (m *MultichannelImpl) CreateAdditionalInfoRoom(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error) {
 	resp := &CreateAdditionalInfoRoomResponse{}
 
@@ -73,7 +73,7 @@ func (m *MultichannelImpl) CreateAdditionalInfoRoom(roomID string, req *CreateAd
 	// Merge existing additional info data (if available).
 	// We must do the get and set method when adding data to the additional info room,
 	// so as not to replace the existing data.
-	existingAdditionalInfoData := []UserProperty{}
+	var existingAdditionalInfoData []UserProperty
 	userProperties := res.Data.Extras.UserProperties
 	if len(userProperties) > 0 {
 		for _, userProp := range userProperties {
@@ -120,12 +120,12 @@ func (m *MultichannelImpl) SendMessageTextByBot(req *SendMessageTextByBotReq) *q
 	return err
 }
 
-// SetToogleBotInRoom set tootle bot in room
-func (m *MultichannelImpl) SetToogleBotInRoom(roomID string, isActive bool) (*SetToogleBotInRoomResponse, *qiscus.Error) {
-	resp := &SetToogleBotInRoomResponse{}
+// SetToggleBotInRoom set tootle bot in room
+func (m *MultichannelImpl) SetToggleBotInRoom(roomID string, isActive bool) (*SetToggleBotInRoomResponse, *qiscus.Error) {
+	resp := &SetToggleBotInRoomResponse{}
 	url := fmt.Sprintf("%s/bot/%s/activate", m.APIBase(), roomID)
 
-	req := SetToogleBotInRoomReq{IsActive: isActive}
+	req := SetToggleBotInRoomReq{IsActive: isActive}
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)

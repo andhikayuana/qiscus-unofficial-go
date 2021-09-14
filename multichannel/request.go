@@ -1,6 +1,6 @@
 package multichannel
 
-// CreateRoomTagReq: Represent Create room tag request payload
+// CreateRoomTagReq is Represent Create room tag request payload
 type CreateRoomTagReq struct {
 	RoomID string `json:"room_id"`
 	Tag    string `json:"tag"`
@@ -11,29 +11,29 @@ type UserProperty struct {
 	Value string `json:"value"`
 }
 
-// CreateAdditionalInfoRoomReq: Represent Create additional room request payload
+// CreateAdditionalInfoRoomReq is Represent Create additional room request payload
 type CreateAdditionalInfoRoomReq struct {
 	UserProperties []UserProperty `json:"user_properties"`
 }
 
-// SendMessageTextByBOTReq: Represent Send message text by Bot request payload
+// SendMessageTextByBotReq is Represent Send message text by Bot request payload
 type SendMessageTextByBotReq struct {
 	Message string
 	RoomID  string
 }
 
-// SetToogleBotInRoomReq: Represent Set toogle room request payload
-type SetToogleBotInRoomReq struct {
+// SetToggleBotInRoomReq is Represent Set toggle room request payload
+type SetToggleBotInRoomReq struct {
 	IsActive bool `json:"is_active"`
 }
 
-// LoginAdminReq: Represent Login admin request payload
+// LoginAdminReq is Represent Login admin request payload
 type LoginAdminReq struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// GetAllAgentsReq: Represent Get all agents request payload
+// GetAllAgentsReq is Represent Get all agents request payload
 type GetAllAgentsReq struct {
 	Page   int // default 1
 	Limit  int // default 20
@@ -41,7 +41,7 @@ type GetAllAgentsReq struct {
 	Scope  string // either `division`, `name`, or `email`, or default
 }
 
-// AssignAgentReq: Represent Assign agent request payload
+// AssignAgentReq is Represent Assign agent request payload
 type AssignAgentReq struct {
 	RoomID             string `json:"room_id"`
 	AgentID            string `json:"agent_id"`
@@ -49,7 +49,7 @@ type AssignAgentReq struct {
 	MaxAgent           int    `json:"max_agent"` // default max agent is 5
 }
 
-// GetAgentsByDivisionReq: Represent Get agents by division request payload
+// GetAgentsByDivisionReq is Represent Get agents by division request payload
 type GetAgentsByDivisionReq struct {
 	Page        int // default 1
 	Limit       int // default 20
@@ -58,13 +58,13 @@ type GetAgentsByDivisionReq struct {
 	Sort        string // default asc (less customer count) can be desc
 }
 
-// GetAllDivisionReq: Represent Get all division request payload
+// GetAllDivisionReq is Represent Get all division request payload
 type GetAllDivisionReq struct {
 	Page  int // default 1
 	Limit int // default 20
 }
 
-// MarkAsResolvedReq: Represent Mark as resolved request payload
+// MarkAsResolvedReq is Represent Mark as resolved request payload
 type MarkAsResolvedReq struct {
 	RoomID        string `json:"room_id"`
 	Notes         string `json:"notes"`

@@ -2,7 +2,7 @@ package sdk
 
 import "time"
 
-// LoginOrRegisterResponse: Represent Login or register response payload
+// LoginOrRegisterResponse is Represent Login or register response payload
 type LoginOrRegisterResponse struct {
 	Results struct {
 		User struct {
@@ -17,7 +17,7 @@ type LoginOrRegisterResponse struct {
 	Status int `json:"status"`
 }
 
-// GetUserProfileResponse: Represent Get user profile response payload
+// GetUserProfileResponse is Represent Get user profile response payload
 type GetUserProfileResponse struct {
 	Results struct {
 		User struct {
@@ -32,7 +32,7 @@ type GetUserProfileResponse struct {
 	Status int `json:"status"`
 }
 
-// GetUserTokenResponse: Represent Get user token response payload
+// GetUserTokenResponse is Represent Get user token response payload
 type GetUserTokenResponse struct {
 	Results struct {
 		Token string `json:"token"`
@@ -40,7 +40,7 @@ type GetUserTokenResponse struct {
 	Status int `json:"status"`
 }
 
-// CreateRoomResponse: Represent Create room response payload
+// CreateRoomResponse is Represent Create room response payload
 type CreateRoomResponse struct {
 	Results struct {
 		Room struct {
@@ -55,7 +55,7 @@ type CreateRoomResponse struct {
 	Status int `json:"status"`
 }
 
-// GetRoomsInfoResponse: Represent Get rooms info response payload
+// GetRoomsInfoResponse is Represent Get rooms info response payload
 type GetRoomsInfoResponse struct {
 	Results struct {
 		Rooms []struct {
@@ -70,7 +70,7 @@ type GetRoomsInfoResponse struct {
 	Status int `json:"status"`
 }
 
-// UpdateRoomResponse: Represent Update room response payload
+// UpdateRoomResponse is Represent Update room response payload
 type UpdateRoomResponse struct {
 	Results struct {
 		Changed bool `json:"changed"`
@@ -86,7 +86,7 @@ type UpdateRoomResponse struct {
 	Status int `json:"status"`
 }
 
-// GetRoomParticipantsResponse: Represent Get room participants response payload
+// GetRoomParticipantsResponse is Represent Get room participants response payload
 type GetRoomParticipantsResponse struct {
 	Results struct {
 		Participants []struct {
@@ -101,7 +101,7 @@ type GetRoomParticipantsResponse struct {
 	Status int `json:"status"`
 }
 
-// AddRoomParticipantsResponse: Represent Add room participants response payload
+// AddRoomParticipantsResponse is Represent Add room participants response payload
 type AddRoomParticipantsResponse struct {
 	Results struct {
 		ParticipantsAdded []struct {
@@ -116,7 +116,7 @@ type AddRoomParticipantsResponse struct {
 	Status int `json:"status"`
 }
 
-// RemoveRoomParticipantsResponse: Represent Remove room participants response payload
+// RemoveRoomParticipantsResponse is Represent Remove room participants response payload
 type RemoveRoomParticipantsResponse struct {
 	Results struct {
 		ParticipantsRemoved []struct {
@@ -131,7 +131,7 @@ type RemoveRoomParticipantsResponse struct {
 	Status int `json:"status"`
 }
 
-// GetUserRoomsResponse: Represent Get user rooms response payload
+// GetUserRoomsResponse is Represent Get user rooms response payload
 type GetUserRoomsResponse struct {
 	Results struct {
 		Meta struct {
@@ -150,7 +150,7 @@ type GetUserRoomsResponse struct {
 	Status int `json:"status"`
 }
 
-// PostCommentResponse: Represent Post comment response payload
+// PostCommentResponse is Represent Post comment response payload
 type PostCommentResponse struct {
 	Results struct {
 		Comment struct {
@@ -175,7 +175,7 @@ type PostCommentResponse struct {
 	Status int `json:"status"`
 }
 
-// LoadCommentsResponse: Represent Load comments response payload
+// LoadCommentsResponse is Represent Load comments response payload
 type LoadCommentsResponse struct {
 	Results struct {
 		Comments []struct {
@@ -214,7 +214,7 @@ type LoadCommentsResponse struct {
 	Status int `json:"status"`
 }
 
-// PostSystemEventMessageResponse: Represent Post system event message response payload
+// PostSystemEventMessageResponse is Represent Post system event message response payload
 type PostSystemEventMessageResponse struct {
 	Results struct {
 		Comment struct {
@@ -256,7 +256,7 @@ type PostSystemEventMessageResponse struct {
 	Status int `json:"status"`
 }
 
-// GetUnreadCountResponse: Represent Get unread count response payload
+// GetUnreadCountResponse is Represent Get unread count response payload
 type GetUnreadCountResponse struct {
 	Results struct {
 		UnreadCounts []struct {
@@ -267,7 +267,7 @@ type GetUnreadCountResponse struct {
 	Status int `json:"status"`
 }
 
-// GetUsersResponse: Represent Get users response payload
+// GetUsersResponse is Represent Get users response payload
 type GetUsersResponse struct {
 	Results struct {
 		Meta struct {
@@ -292,7 +292,7 @@ type GetUsersResponse struct {
 	Status int `json:"status"`
 }
 
-// LoadCommentsWithRangeResponse: Represent Load comments with range response payload
+// LoadCommentsWithRangeResponse is Represent Load comments with range response payload
 type LoadCommentsWithRangeResponse struct {
 	Results struct {
 		Comments []struct {
@@ -319,7 +319,7 @@ type LoadCommentsWithRangeResponse struct {
 	} `json:"results"`
 }
 
-// GetOrCreateChannelResponse: Represent Get or create channel response payload
+// GetOrCreateChannelResponse is Represent Get or create channel response payload
 type GetOrCreateChannelResponse struct {
 	Results struct {
 		Changed bool `json:"changed"`
@@ -335,7 +335,7 @@ type GetOrCreateChannelResponse struct {
 	Status int `json:"status"`
 }
 
-// GetAverageReplyTimeUserResponse: Represent Get average reply time user response payload
+// GetAverageReplyTimeUserResponse is Represent Get average reply time user response payload
 type GetAverageReplyTimeUserResponse struct {
 	Results struct {
 		Data struct {
@@ -352,7 +352,7 @@ type GetAverageReplyTimeUserResponse struct {
 	Status int `json:"status"`
 }
 
-// GetWebhookLogsResponse: Represent Get webhook logs response payload
+// GetWebhookLogsResponse is Represent Get webhook logs response payload
 type GetWebhookLogsResponse struct {
 	Results struct {
 		WebhookLogs []struct {
@@ -369,7 +369,7 @@ type GetWebhookLogsResponse struct {
 	Status int `json:"status"`
 }
 
-// DeactivateUserResponse: Represent Deactivate user response payload
+// DeactivateUserResponse is Represent Deactivate user response payload
 type DeactivateUserResponse struct {
 	Results struct {
 		Message string `json:"message"`
@@ -377,7 +377,7 @@ type DeactivateUserResponse struct {
 	Status int `json:"status"`
 }
 
-// ReactivateUserResponse: Represent Reactivate user response payload
+// ReactivateUserResponse is Represent Reactivate user response payload
 type ReactivateUserResponse struct {
 	Results struct {
 		Message string `json:"message"`
