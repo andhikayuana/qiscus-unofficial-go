@@ -1,4 +1,7 @@
 # Unofficial Qiscus API for Golang
+[![Go Reference](https://pkg.go.dev/badge/github.com/andhikayuana/qiscus-unofficial-go.svg)](https://pkg.go.dev/github.com/andhikayuana/qiscus-unofficial-go)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Go Report Card](https://goreportcard.com/badge/github.com/andhikayuana/qiscus-unofficial-go)](https://goreportcard.com/report/github.com/andhikayuana/qiscus-unofficial-go)
 
 This library is the abstraction of [Qiscus](https://www.qiscus.com) SDK & Multichannel API for access from applications written with Go.
 
