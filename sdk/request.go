@@ -38,7 +38,7 @@ type UpdateRoomReq struct {
 // AddRoomParticipantsReq is  Represent Add room participants request payload
 type AddRoomParticipantsReq struct {
 	RoomID  string   `json:"room_id"`
-	UserIds []string `json:"user_ids"`
+	UserIDs []string `json:"user_ids"`
 }
 
 // RemoveRoomParticipantsReq is Represent Remove room participants request payload
