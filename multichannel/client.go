@@ -23,7 +23,7 @@ type Multichannel interface {
 	SetAPIBase(address string)
 
 	GetRoomTags(roomID string) (*RoomTagsResponse, *qiscus.Error)
-	CreateRoomTag(rreq *CreateRoomTagReq) (*CreateRoomTagResponse, *qiscus.Error)
+	CreateRoomTag(req *CreateRoomTagReq) (*CreateRoomTagResponse, *qiscus.Error)
 	CreateAdditionalInfoRoomWithReplace(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
 	GetAdditionalInfoRoom(roomID string) (*GetAdditionalInfoRoomResponse, *qiscus.Error)
 	CreateAdditionalInfoRoom(roomID string, req *CreateAdditionalInfoRoomReq) (*CreateAdditionalInfoRoomResponse, *qiscus.Error)
