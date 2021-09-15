@@ -30,7 +30,7 @@ type Multichannel interface {
 	MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolvedResponse, *qiscus.Error)
 	GetRoomByRoomID(roomID string) (*GetRoomByRoomIDResponse, *qiscus.Error)
 	SendMessageTextByBot(req *SendMessageTextByBotReq) *qiscus.Error
-	SetToggleBotInRoom(roomID string, isActive bool) (*SetToogleBotInRoomResponse, *qiscus.Error)
+	SetToggleBotInRoom(roomID string, isActive bool) (*SetToggleBotInRoomResponse, *qiscus.Error)
 	GetAllAgents(req *GetAllAgentsReq) (*GetAllAgentsResponse, *qiscus.Error)
 	AssignAgent(req *AssignAgentReq) (*AssignAgentResponse, *qiscus.Error)
 	GetAgentsByDivision(req *GetAgentsByDivisionReq) (*GetAgentsByDivisionResponse, *qiscus.Error)
