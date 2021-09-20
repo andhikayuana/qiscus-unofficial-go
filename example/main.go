@@ -3,16 +3,19 @@ package main
 import (
 	"fmt"
 
+	"github.com/andhikayuana/qiscus-unofficial-go"
 	"github.com/andhikayuana/qiscus-unofficial-go/multichannel"
 	"github.com/andhikayuana/qiscus-unofficial-go/sdk"
 )
 
 func main() {
+	qiscus.DefaultHttpOutboundLog = true
+
 	// Initiate client for Multichannel
 	multichannelClient := multichannel.NewMultichannel("app-code", "admin-token", "admin-email")
 
 	// Initiate client for Multichannel using creadential email and password admin
-	// multichannelClient, err := multichannel.NewMultichannelFromCredential("kaqiscus@gmail.com", "garasipojok")
+	// multichannelClient, err := multichannel.NewMultichannelFromCredential("example@mail.com", "12345678")
 	// if err != nil {
 	// 	panic(err)
 	// }
@@ -28,7 +31,10 @@ func main() {
 	// multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
 
 	// Sample Multichannel method
-	resp, _ := multichannelClient.GetRoomTags("123123123")
+	resp, _ := multichannelClient.CreateRoomTag(&multichannel.CreateRoomTagReq{
+		RoomID: "12345678",
+		Tag:    "test",
+	})
 	fmt.Println(resp)
 
 	// Initiate client for SDK
@@ -47,7 +53,7 @@ func main() {
 	// Sample SDK method
 	resp2, _ := sdkClient.LoginOrRegister(&sdk.LoginOrRegisterReq{
 		UserID:   "guest2@qiscus.com",
-		Password: "123123123",
+		Password: "12345678",
 		Username: "User Demo",
 	})
 	fmt.Println(resp2)

@@ -1,6 +1,7 @@
 package qiscus
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,6 +9,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/rs/zerolog/log"
 )
 
 // APIResponse : is a structs that may come from Qiscus API endpoints
@@ -51,7 +54,6 @@ type HttpRequestImpl struct {
 	Parameters map[string][]string
 	Response   interface{}
 	HttpClient *http.Client
-	Logger     Logger
 }
 
 func NewHttpRequest(method string, url string, body io.Reader, response interface{}) HttpRequest {
@@ -60,8 +62,7 @@ func NewHttpRequest(method string, url string, body io.Reader, response interfac
 		URL:        url,
 		Body:       body,
 		Response:   response,
-		HttpClient: DefaultGoHttpClient,
-		Logger:     DefaultLoggerLevel,
+		HttpClient: DefaultHttpClient,
 	}
 }
 
@@ -83,11 +84,19 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	// NewRequest is used by Call to generate an http.Request.
 	req, err := http.NewRequest(r.Method, r.URL, r.Body)
 	if err != nil {
-		r.Logger.Error("Cannot create Qiscus request: %v", err)
 		return &Error{
 			Message:  fmt.Sprintf("error request creation failed: %s", err.Error()),
 			RawError: err,
 		}
+	}
+
+	// Get request body.
+	// The request body after calling Do() function, will be closed by the underlying Transport, even on errors.
+	var reqBody []byte
+	if req.Body != nil {
+		reqBody, _ = ioutil.ReadAll(req.Body)
+		// Restore the io.ReadCloser to its original state
+		req.Body = ioutil.NopCloser(bytes.NewBuffer(reqBody))
 	}
 
 	// Set Parameters
@@ -111,12 +120,9 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
-	r.Logger.Info("%v Request %v %v", req.Method, req.URL, req.Proto)
-
 	start := time.Now()
 	res, err := r.HttpClient.Do(req)
 	if err != nil {
-		r.Logger.Error("Cannot send request: %v", err.Error())
 		return &Error{
 			Message:    fmt.Sprintf("error when request via http client, cannot send request with error: %s", err.Error()),
 			StatusCode: res.StatusCode,
@@ -125,11 +131,10 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 	}
 
 	defer res.Body.Close()
-	r.Logger.Info("Request completed in %v", time.Since(start))
+	latency := time.Since(start)
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		r.Logger.Error("Request failed: %v", err)
 		return &Error{
 			Message:    "cannot read response body: " + err.Error(),
 			StatusCode: res.StatusCode,
@@ -137,8 +142,32 @@ func (r *HttpRequestImpl) DoRequest() *Error {
 		}
 	}
 
+	if DefaultHttpOutboundLog {
+		compactBody := func(data []byte) string {
+			var js map[string]interface{}
+			if json.Unmarshal(data, &js) != nil {
+				return string(data)
+			}
+
+			result := new(bytes.Buffer)
+			if err := json.Compact(result, data); err != nil {
+				fmt.Println(err)
+			}
+			return result.String()
+		}
+
+		// Write http outbound log
+		log.Info().
+			Str("method", res.Request.Method).
+			Str("url", res.Request.URL.String()).
+			Str("body", compactBody(reqBody)).
+			Int("status", res.StatusCode).
+			Str("response", compactBody(resBody)).
+			Dur("latency", latency).
+			Msg("OUTBOUND LOG")
+	}
+
 	rawResponse := newAPIResponse(res, resBody)
-	r.Logger.Debug("Response body: %v", string(rawResponse.RawBody))
 
 	if r.Response != nil {
 		if err = json.Unmarshal(resBody, &r.Response); err != nil {

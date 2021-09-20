@@ -17,12 +17,12 @@ func (e *Error) GetStatusCode() int {
 	return e.StatusCode
 }
 
+// GetRawError this get api raw error
+func (e *Error) GetRawError() error {
+	return e.RawError
+}
+
 // GetRawApiResponse this get api raw response from qiscus backend
 func (e *Error) GetRawApiResponse() *APIResponse {
 	return e.RawApiResponse
-}
-
-// GetRawError GetRawApiResponse this get api raw response from qiscus backend
-func (e *Error) GetRawError() error {
-	return e.RawError
 }

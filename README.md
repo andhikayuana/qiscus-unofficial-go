@@ -29,16 +29,19 @@ package main
 import (
 	"fmt"
 
+	"github.com/andhikayuana/qiscus-unofficial-go"
 	"github.com/andhikayuana/qiscus-unofficial-go/multichannel"
 	"github.com/andhikayuana/qiscus-unofficial-go/sdk"
 )
 
 func main() {
+	qiscus.DefaultHttpOutboundLog = true
+
 	// Initiate client for Multichannel.
 	multichannelClient := multichannel.NewMultichannel("app-code", "admin-token", "admin-email")
 
 	// Initiate client for Multichannel using creadential email and password admin.
-	multichannelClient, err := multichannel.NewMultichannelFromCredential("example@mail.com", "password")
+	multichannelClient, err := multichannel.NewMultichannelFromCredential("example@mail.com", "12345678")
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +54,10 @@ func main() {
 	}
 
 	// Sample Multichannel method.
-	resp, _ := multichannelClient.GetRoomTags("12345678")
+	resp, _ := multichannelClient.CreateRoomTag(&multichannel.CreateRoomTagReq{
+		RoomID: "12345678",
+		Tag:    "test",
+	})
 	fmt.Println(resp)
 
 
@@ -90,24 +96,31 @@ multichannelClient.SetAPIBase("https://multichannel2.qiscus.com")
 ```
 
 ### 3.2. Override HTTP Client timeout
-By default, timeout value for HTTP Client 80 seconds. But you can override the HTTP client default config from global variable `qiscus.DefaultGoHttpClient`:
+By default, timeout value for HTTP Client 80 seconds. But you can override the HTTP client default config from global variable `qiscus.DefaultHttpClient`:
 ```go
 t := 100 * time.Second
-qiscus.DefaultGoHttpClient = &http.Client{
+qiscus.DefaultHttpClient = &http.Client{
 	Timeout: t,
 }
 ```
 
-### 3.3. Log Configuration
-By default, the log level will use `LogError` level. You have option to change the default log level configuration with global variable `qiscus.DefaultLoggerLevel`:
+### 3.3. HTTP Outbound Log Configuration
+By default, the outbound log is `false`. You have option to change the default outbound log configuration with global variable `qiscus.DefaultHttpOutboundLog`:
 ```go
-qiscus.DefaultLoggerLevel = &qiscus.LoggerImpl{LogLevel: qiscus.LogInfo}
+qiscus.DefaultHttpOutboundLog = true
 
-// Details Log Level
-// NoLogging    : sets a logger to not show the messages
-// LogError     : sets a logger to show error messages only.
-// LogInfo      : sets a logger to show information messages
-// LogDebug     : sets a logger to show informational messages for debugging
+// Details HTTP Outbound Log
+{
+  "level": "info",
+  "method": "POST",
+  "url": "https://multichannel.qiscus.com/api/v1/room_tag/create",
+  "body": "{\"room_id\":\"12345678\",\"tag\":\"test\"}",
+  "status": 200,
+  "response": "{\"data\":{\"id\":1,\"name\":\"test\"}}",
+  "latency": 774.9559,
+  "time": "2021-09-20T14:32:24+07:00",
+  "message": "OUTBOUND LOG"
+}
 ```
 
 ## 4. Error Handling
