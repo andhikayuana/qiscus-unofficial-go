@@ -298,6 +298,7 @@ func (s *SDKImpl) GetUnreadCount(req *GetUnreadCountReq) (*GetUnreadCountRespons
 	return resp, err
 }
 
+// GetUsers get users
 func (s *SDKImpl) GetUsers(req *GetUsersReq) (*GetUsersResponse, *qiscus.Error) {
 	resp := &GetUsersResponse{}
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_user_list", s.APIBase())
