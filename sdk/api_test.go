@@ -23,15 +23,16 @@ func TestLoginOrRegister(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/login_or_register")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"user":{"user_id":"%s","username":"%s","avatar_url":"%s"}}}`, userID, userName, avatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.LoginOrRegister(&LoginOrRegisterReq{
@@ -57,15 +58,16 @@ func TestGetUserProfile(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/user_profile")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"user":{"user_id":"%s","username":"%s","avatar_url":"%s"}}}`, userID, userName, avatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetUserProfile(userID)
@@ -84,15 +86,16 @@ func TestGetUserToken(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_user_token")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"token":"%s"}}`, userToken)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetUserToken(userID)
@@ -109,15 +112,16 @@ func TestResetUserToken(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/reset_user_token")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"token":"%s"}}`, newUserToken)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.ResetUserToken(userID)
@@ -136,15 +140,16 @@ func TestCreateRoom(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/create_room")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"room":{"room_name":"%s","room_avatar_url":"%s"}}}`, roomName, roomAvatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.CreateRoom(&CreateRoomReq{
@@ -164,14 +169,15 @@ func TestGetOrCreateRoomWithTarget(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_or_create_room_with_target")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		fmt.Fprint(w, `{"results":{"room":{"room_name":"","room_avatar_url":""}}}`)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetOrCreateRoomWithTarget(&GetOrCreateRoomWithTargetReq{
@@ -191,15 +197,16 @@ func TestGetRoomsInfo(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_rooms_info")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"rooms":[{"room_id":"%s","room_name":"%s","room_avatar_url":"%s"}]}}`, roomID, roomName, roomAvatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetRoomsInfo([]string{roomID})
@@ -215,15 +222,16 @@ func TestUpdateRoom(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/update_room")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"changed":true,"room":{"room_id":"%s","room_name":"%s"}}}`, roomID, newRoomName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.UpdateRoom(&UpdateRoomReq{
@@ -245,15 +253,16 @@ func TestGetRoomParticipants(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_room_participants")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"participants":[{"user_id":"%s","username":"%s"}]}}`, participantID, participantName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetRoomParticipants(&GetRoomParticipantsReq{RoomID: roomID})
@@ -272,15 +281,16 @@ func TestAddRoomParticipants(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/add_room_participants")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"participants_added":[{"user_id":"%s","username":"%s","avatar_url":"%s"}]}}`, userID, userName, avatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.AddRoomParticipants(&AddRoomParticipantsReq{
@@ -303,15 +313,16 @@ func TestRemoveRoomParticipants(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/remove_room_participants")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"participants_removed":[{"user_id":"%s","username":"%s","avatar_url":"%s"}]}}`, userID, userName, avatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.RemoveRoomParticipants(&RemoveRoomParticipantsReq{})
@@ -331,15 +342,16 @@ func TestGetUserRooms(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_user_rooms")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"rooms":[{"room_id":"%s","room_name":"%s","room_avatar_url":"%s"}]}}`, roomID, roomName, roomAvatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetUserRooms(&GetUserRoomsReq{UserID: userID})
@@ -358,15 +370,16 @@ func TestPostComment(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/post_comment")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"comment":{"message":"%s","type":"text","user":{"user_id":"%s"}}}}`, message, userID)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.PostComment(&PostCommentReq{
@@ -389,15 +402,16 @@ func TestLoadComments(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/load_comments")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"comments":[{"id":%d,"message":"%s"}]}}`, commentID, commentMessage)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.LoadComments(&LoadCommentsReq{RoomID: roomID})
@@ -415,15 +429,16 @@ func TestPostSystemEventMessage(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/post_system_event_message")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"comment":{"id":%d,"message":"%s","type":"custom"}}}`, commentID, commentMessage)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.PostSystemEventMessage(&PostSystemEventMessageReq{
@@ -445,15 +460,16 @@ func TestGetUnreadCount(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_unread_count")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"unread_counts":[{"room_id":"%s","unread_count":%d}]}}`, roomID, unreadCount)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetUnreadCount(&GetUnreadCountReq{
@@ -476,15 +492,16 @@ func TestGetUsers(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_user_list")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"users":[{"id":%d,"email":"%s","name":"%s","avatar_url":"%s"}]}}`, userID, userEmail, userName, userAvatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetUsers(&GetUsersReq{})
@@ -506,15 +523,16 @@ func TestLoadCommentsWithRange(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/load_comments_with_range")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"comments":[{"id":%d,"message":"%s"},{"id":%d,"message":"%s"}]}}`, firstCommentID, firstCommentMessage, lastCommentID, lastCommentMessage)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.LoadCommentsWithRange(&LoadCommentsWithRangeReq{
@@ -540,15 +558,16 @@ func TestGetOrCreateChannel(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_or_create_channel")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"room":{"room_channel_id":"%s","room_id":"%s","room_name":"%s","room_avatar_url":"%s","room_type":"channel"}}}`, roomChannelID, roomID, roomName, avatarURL)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetOrCreateChannel(&GetOrCreateChannelReq{
@@ -574,15 +593,16 @@ func TestGetAverageReplyTimeUser(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/get_average_reply_time_user")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"data":{"user_id":"%s","duration":{"average":%d}}}}`, userID, average)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAverageReplyTimeUser(&GetAverageReplyTimeUserReq{UserID: userID})
@@ -600,15 +620,16 @@ func TestGetWebhookLogs(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/webhook_logs")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"webhook_logs":[{"id":%d,"response_code":%d}]}}`, webhookID, responseCode)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetWebhookLogs(&GetWebhookLogsReq{})
@@ -626,15 +647,16 @@ func TestDeactivateUser(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodDelete)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/deactivate_users")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"message":"%s"}}`, respMessage)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.DeactivateUser(&DeactivateUserReq{
@@ -653,15 +675,16 @@ func TestReactivateUser(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v2.1/rest/reactivate_users")
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), appCode)
-		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), secretKey)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_APP_ID"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("QISCUS_SDK_SECRET"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"results":{"message":"%s"}}`, respMessage)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewSDK(appCode, secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.ReactivateUser(&ReactivateUserReq{

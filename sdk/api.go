@@ -18,8 +18,8 @@ func (s *SDKImpl) LoginOrRegister(req *LoginOrRegisterReq) (*LoginOrRegisterResp
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -31,8 +31,8 @@ func (s *SDKImpl) GetUserProfile(userID string) (*GetUserProfileResponse, *qiscu
 	url := fmt.Sprintf("%s/api/v2.1/rest/user_profile", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("user_id", userID)
 	err := r.DoRequest()
 
@@ -45,8 +45,8 @@ func (s *SDKImpl) GetUserToken(userID string) (*GetUserTokenResponse, *qiscus.Er
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_user_token", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("user_id", userID)
 	err := r.DoRequest()
 
@@ -62,8 +62,8 @@ func (s *SDKImpl) ResetUserToken(userID string) (*GetUserTokenResponse, *qiscus.
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -76,8 +76,8 @@ func (s *SDKImpl) CreateRoom(req *CreateRoomReq) (*CreateRoomResponse, *qiscus.E
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -90,8 +90,8 @@ func (s *SDKImpl) GetOrCreateRoomWithTarget(req *GetOrCreateRoomWithTargetReq) (
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -103,8 +103,8 @@ func (s *SDKImpl) GetRoomsInfo(roomIDs []string) (*GetRoomsInfoResponse, *qiscus
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_rooms_info", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 
 	for _, roomID := range roomIDs {
 		r.AddParameter("room_ids[]", roomID)
@@ -122,8 +122,8 @@ func (s *SDKImpl) UpdateRoom(req *UpdateRoomReq) (*UpdateRoomResponse, *qiscus.E
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -145,8 +145,8 @@ func (s *SDKImpl) GetRoomParticipants(req *GetRoomParticipantsReq) (*GetRoomPart
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("room_id", req.RoomID)
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
@@ -162,8 +162,8 @@ func (s *SDKImpl) AddRoomParticipants(req *AddRoomParticipantsReq) (*AddRoomPart
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -176,8 +176,8 @@ func (s *SDKImpl) RemoveRoomParticipants(req *RemoveRoomParticipantsReq) (*Remov
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -199,8 +199,8 @@ func (s *SDKImpl) GetUserRooms(req *GetUserRoomsReq) (*GetUserRoomsResponse, *qi
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("user_id", req.UserID)
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
@@ -217,8 +217,8 @@ func (s *SDKImpl) PostComment(req *PostCommentReq) (*PostCommentResponse, *qiscu
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -240,8 +240,8 @@ func (s *SDKImpl) LoadComments(req *LoadCommentsReq) (*LoadCommentsResponse, *qi
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("room_id", req.RoomID)
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
@@ -272,8 +272,8 @@ func (s *SDKImpl) PostSystemEventMessage(req *PostSystemEventMessageReq) (*PostS
 	jsonReq, _ := json.Marshal(newReq)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -285,8 +285,8 @@ func (s *SDKImpl) GetUnreadCount(req *GetUnreadCountReq) (*GetUnreadCountRespons
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_unread_count", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("user_id", req.UserID)
 
 	for _, roomID := range req.RoomIDs {
@@ -318,8 +318,8 @@ func (s *SDKImpl) GetUsers(req *GetUsersReq) (*GetUsersResponse, *qiscus.Error) 
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	r.AddParameter("show_all", strconv.FormatBool(req.ShowAll))
@@ -335,8 +335,8 @@ func (s *SDKImpl) LoadCommentsWithRange(req *LoadCommentsWithRangeReq) (*LoadCom
 	url := fmt.Sprintf("%s/api/v2.1/rest/load_comments_with_range", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("room_id", req.RoomID)
 	r.AddParameter("first_comment_id", req.FirstCommentID)
 	r.AddParameter("last_comment_id", req.LastCommentID)
@@ -352,8 +352,8 @@ func (s *SDKImpl) GetOrCreateChannel(req *GetOrCreateChannelReq) (*GetOrCreateCh
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -365,8 +365,8 @@ func (s *SDKImpl) GetAverageReplyTimeUser(req *GetAverageReplyTimeUserReq) (*Get
 	url := fmt.Sprintf("%s/api/v2.1/rest/get_average_reply_time_user", s.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("user_id", req.UserID)
 	r.AddParameter("start_time", req.StartTime)
 	r.AddParameter("end_time", req.EndTime)
@@ -396,8 +396,8 @@ func (s *SDKImpl) GetWebhookLogs(req *GetWebhookLogsReq) (*GetWebhookLogsRespons
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	r.AddParameter("type", req.Type)
@@ -413,8 +413,8 @@ func (s *SDKImpl) DeactivateUser(req *DeactivateUserReq) (*DeactivateUserRespons
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodDelete, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err
@@ -427,8 +427,8 @@ func (s *SDKImpl) ReactivateUser(req *ReactivateUserReq) (*ReactivateUserRespons
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("QISCUS_SDK_APP_ID", s.AppCode())
-	r.AddHeader("QISCUS_SDK_SECRET", s.SecretKey())
+	r.AddHeader("QISCUS_SDK_APP_ID", s.QiscusAppID())
+	r.AddHeader("QISCUS_SDK_SECRET", s.QiscusSecretKey())
 	err := r.DoRequest()
 
 	return resp, err

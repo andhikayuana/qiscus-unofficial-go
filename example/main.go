@@ -12,16 +12,16 @@ func main() {
 	qiscus.DefaultHttpOutboundLog = true
 
 	// Initiate client for Multichannel
-	multichannelClient := multichannel.NewMultichannel("app-code", "admin-token", "admin-email")
+	multichannelClient := multichannel.NewMultichannel("qiscus-app-id", "qiscus-secret-key")
 
-	// Initiate client for Multichannel using creadential email and password admin
+	// Initiate client for Multichannel using credential email and password admin
 	// multichannelClient, err := multichannel.NewMultichannelFromCredential("example@mail.com", "12345678")
 	// if err != nil {
 	// 	panic(err)
 	// }
 
 	// Initiate client for Multichannel using environment variable
-	// QISMO_APP_CODE, QISMO_ADMIN_TOKEN, QISMO_ADMIN_EMAIL and QISMO_BASE_URL
+	// QISCUS_APP_ID, QISCUS_SECRET_KEY and MULTICHANNEL_API_BASE
 	// multichannelClient, err := multichannel.NewMultichannelFromEnv()
 	// if err != nil {
 	// 	panic(err)
@@ -38,10 +38,10 @@ func main() {
 	fmt.Println(resp)
 
 	// Initiate client for SDK
-	sdkClient := sdk.NewSDK("app-code", "secret-key")
+	sdkClient := sdk.NewSDK("qiscus-app-id", "qiscus-secret-key")
 
 	// Initiate client for SDK using environment variable
-	// QISCUS_SDK_APP_CODE, QISCUS_SDK_SECRET_KEY and QISCUS_SDK_BASE_URL
+	// QISCUS_APP_ID, QISCUS_SECRET_KEY and QISCUS_API_BASE
 	// sdkClient, err := sdk.NewSDKFromEnv()
 	// if err != nil {
 	// 	panic(err)

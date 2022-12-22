@@ -7,12 +7,12 @@ import (
 )
 
 const (
-	appCode   = "test-app-code"
-	secretKey = "test-secret-key"
+	qiscusAppID     = "test-qiscus-app-id"
+	qiscusSecretKey = "test-qiscus-secret-key"
 )
 
 func TestNewSDK(t *testing.T) {
-	c := NewSDK(appCode, secretKey)
-	assert.Equal(t, c.AppCode(), appCode)
-	assert.Equal(t, c.SecretKey(), secretKey)
+	c := NewSDK(qiscusAppID, qiscusSecretKey)
+	assert.Equal(t, c.QiscusAppID(), qiscusAppID)
+	assert.Equal(t, c.QiscusSecretKey(), qiscusSecretKey)
 }

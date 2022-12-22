@@ -17,9 +17,8 @@ const APIBase = "https://multichannel.qiscus.com"
 // Multichannel defines the supported subset of the Multichannel API.
 type Multichannel interface {
 	APIBase() string
-	AppCode() string
-	AdminToken() string
-	AdminEmail() string
+	QiscusAppID() string
+	QiscusSecretKey() string
 	SetAPIBase(address string)
 
 	GetRoomTags(roomID string) (*RoomTagsResponse, *qiscus.Error)
@@ -40,43 +39,36 @@ type Multichannel interface {
 
 // MultichannelImpl bundles data needed by a large number of methods in order to interact with the Multichannel API.
 type MultichannelImpl struct {
-	apiBase    string
-	appCode    string
-	adminToken string
-	adminEmail string
+	apiBase         string
+	qiscusAppID     string
+	qiscusSecretKey string
 }
 
 // NewMultichannel creates a new client instance.
-func NewMultichannel(appCode, adminToken, adminEmail string) Multichannel {
+func NewMultichannel(qiscusAppID, qiscusSecretKey string) Multichannel {
 	return &MultichannelImpl{
-		apiBase:    APIBase,
-		appCode:    appCode,
-		adminToken: adminToken,
-		adminEmail: adminEmail,
+		apiBase:         APIBase,
+		qiscusAppID:     qiscusAppID,
+		qiscusSecretKey: qiscusSecretKey,
 	}
 }
 
 // NewMultichannelFromEnv returns a new Multichannel client using the environment variables
-// QISMO_APP_CODE, QISMO_ADMIN_TOKEN, QISMO_ADMIN_EMAIL and QISMO_BASE_URL
+// QISCUS_APP_ID, QISCUS_SECRET_KEY and MULTICHANNEL_API_BASE
 func NewMultichannelFromEnv() (Multichannel, error) {
-	appCode := os.Getenv("QISMO_APP_CODE")
-	if appCode == "" {
-		return nil, errors.New("required environment variable QISMO_APP_CODE not defined")
+	qiscusAppID := os.Getenv("QISCUS_APP_ID")
+	if qiscusAppID == "" {
+		return nil, errors.New("required environment variable QISCUS_APP_ID not defined")
 	}
 
-	adminToken := os.Getenv("QISMO_ADMIN_TOKEN")
-	if adminToken == "" {
-		return nil, errors.New("required environment variable QISMO_ADMIN_TOKEN not defined")
+	qiscusSecretKey := os.Getenv("QISCUS_SECRET_KEY")
+	if qiscusSecretKey == "" {
+		return nil, errors.New("required environment variable QISCUS_SECRET_KEY not defined")
 	}
 
-	adminEmail := os.Getenv("QISMO_ADMIN_EMAIL")
-	if adminEmail == "" {
-		return nil, errors.New("required environment variable QISMO_ADMIN_EMAIL not defined")
-	}
+	m := NewMultichannel(qiscusAppID, qiscusSecretKey)
 
-	m := NewMultichannel(appCode, adminToken, adminEmail)
-
-	url := os.Getenv("QISMO_BASE_URL")
+	url := os.Getenv("MULTICHANNEL_API_BASE")
 	if url != "" {
 		m.SetAPIBase(url)
 	}
@@ -97,7 +89,7 @@ func NewMultichannelFromCredential(email, password string) (Multichannel, error)
 		return nil, fmt.Errorf("initiate client for multichannel failed. %s", err.Message)
 	}
 
-	m := NewMultichannel(resp.Data.User.App.AppCode, resp.Data.LongLivedToken, resp.Data.User.SdkEmail)
+	m := NewMultichannel(resp.Data.User.App.AppCode, resp.Data.User.App.SecretKey)
 	return m, nil
 
 }
@@ -107,19 +99,14 @@ func (m *MultichannelImpl) APIBase() string {
 	return m.apiBase
 }
 
-// AppCode returns the App ID configured for this client
-func (m *MultichannelImpl) AppCode() string {
-	return m.appCode
+// QiscusAppID returns the App ID configured for this client
+func (m *MultichannelImpl) QiscusAppID() string {
+	return m.qiscusAppID
 }
 
-// AdminToken returns the Admin Token configured for this client
-func (m *MultichannelImpl) AdminToken() string {
-	return m.adminToken
-}
-
-// AdminEmail returns the Admin Email configured for this client
-func (m *MultichannelImpl) AdminEmail() string {
-	return m.adminEmail
+// QiscusSecretKey returns the Secret Key configured for this client
+func (m *MultichannelImpl) QiscusSecretKey() string {
+	return m.qiscusSecretKey
 }
 
 // SetAPIBase updates the API Base URL for this client.

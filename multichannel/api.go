@@ -16,7 +16,9 @@ func (m *MultichannelImpl) GetRoomTags(roomID string) (*RoomTagsResponse, *qiscu
 	url := fmt.Sprintf("%s/api/v1/room_tag/%s", m.APIBase(), roomID)
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -29,7 +31,9 @@ func (m *MultichannelImpl) CreateRoomTag(req *CreateRoomTagReq) (*CreateRoomTagR
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -43,7 +47,9 @@ func (m *MultichannelImpl) CreateAdditionalInfoRoomWithReplace(roomID string, re
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -55,7 +61,9 @@ func (m *MultichannelImpl) GetAdditionalInfoRoom(roomID string) (*GetAdditionalI
 	url := fmt.Sprintf("%s/api/v1/qiscus/room/%s/user_info", m.APIBase(), roomID)
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -89,7 +97,9 @@ func (m *MultichannelImpl) CreateAdditionalInfoRoom(roomID string, req *CreateAd
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -97,7 +107,7 @@ func (m *MultichannelImpl) CreateAdditionalInfoRoom(roomID string, req *CreateAd
 
 // SendMessageTextByBot send message text by bot
 func (m *MultichannelImpl) SendMessageTextByBot(req *SendMessageTextByBotReq) *qiscus.Error {
-	url := fmt.Sprintf("%s/%s/bot", m.APIBase(), m.AppCode())
+	url := fmt.Sprintf("%s/%s/bot", m.APIBase(), m.QiscusAppID())
 
 	newReq := struct {
 		SenderEmail string `json:"sender_email"`
@@ -105,7 +115,7 @@ func (m *MultichannelImpl) SendMessageTextByBot(req *SendMessageTextByBotReq) *q
 		RoomID      string `json:"room_id"`
 		Type        string `json:"type"`
 	}{
-		SenderEmail: m.AdminEmail(),
+		SenderEmail: req.SenderEmail,
 		Message:     req.Message,
 		RoomID:      req.RoomID,
 		Type:        "text",
@@ -114,7 +124,9 @@ func (m *MultichannelImpl) SendMessageTextByBot(req *SendMessageTextByBotReq) *q
 	jsonReq, _ := json.Marshal(newReq)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), nil)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return err
@@ -129,7 +141,9 @@ func (m *MultichannelImpl) SetToggleBotInRoom(roomID string, isActive bool) (*Se
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -151,11 +165,14 @@ func (m *MultichannelImpl) GetAllAgents(req *GetAllAgentsReq) (*GetAllAgentsResp
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	r.AddParameter("search", req.Search)
 	r.AddParameter("scope", req.Scope)
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -174,7 +191,9 @@ func (m *MultichannelImpl) AssignAgent(req *AssignAgentReq) (*AssignAgentRespons
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -196,7 +215,9 @@ func (m *MultichannelImpl) GetAgentsByDivision(req *GetAgentsByDivisionReq) (*Ge
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	r.AddParameter("is_available", strconv.FormatBool(req.IsAvailable))
@@ -226,7 +247,9 @@ func (m *MultichannelImpl) GetAllDivision(req *GetAllDivisionReq) (*GetAllDivisi
 	}
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	r.AddParameter("page", strconv.Itoa(req.Page))
 	r.AddParameter("limit", strconv.Itoa(req.Limit))
 	err := r.DoRequest()
@@ -241,7 +264,9 @@ func (m *MultichannelImpl) MarkAsResolved(req *MarkAsResolvedReq) (*MarkAsResolv
 	jsonReq, _ := json.Marshal(req)
 
 	r := qiscus.NewHttpRequest(http.MethodPost, url, bytes.NewBuffer(jsonReq), resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -253,7 +278,9 @@ func (m *MultichannelImpl) GetAllChannels() (*GetAllChannelsResponse, *qiscus.Er
 	url := fmt.Sprintf("%s/api/v2/channels", m.APIBase())
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err
@@ -265,7 +292,9 @@ func (m *MultichannelImpl) GetRoomByRoomID(roomID string) (*GetRoomByRoomIDRespo
 	url := fmt.Sprintf("%s/api/v2/customer_rooms/%s", m.APIBase(), roomID)
 
 	r := qiscus.NewHttpRequest(http.MethodGet, url, nil, resp)
-	r.AddHeader("Authorization", m.AdminToken())
+	r.AddHeader("Qiscus-App-Id", m.QiscusAppID())
+	r.AddHeader("Qiscus-Secret-Key", m.QiscusSecretKey())
+
 	err := r.DoRequest()
 
 	return resp, err

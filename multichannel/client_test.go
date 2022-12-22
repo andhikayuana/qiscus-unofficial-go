@@ -7,15 +7,13 @@ import (
 )
 
 const (
-	appCode    = "test-app-code"
-	adminToken = "test-admin-token"
-	adminEmail = "test@mail.com"
+	qiscusAppID     = "test-qiscus-app-id"
+	qiscusSecretKey = "test-qiscus-secret-key"
 )
 
 func TestNewMultichannel(t *testing.T) {
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 
-	assert.Equal(t, c.AppCode(), appCode)
-	assert.Equal(t, c.AdminToken(), adminToken)
-	assert.Equal(t, c.AdminEmail(), adminEmail)
+	assert.Equal(t, c.QiscusAppID(), qiscusAppID)
+	assert.Equal(t, c.QiscusSecretKey(), qiscusSecretKey)
 }

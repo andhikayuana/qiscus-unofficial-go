@@ -18,8 +18,9 @@ type CreateAdditionalInfoRoomReq struct {
 
 // SendMessageTextByBotReq is Represent Send message text by Bot request payload
 type SendMessageTextByBotReq struct {
-	Message string
-	RoomID  string
+	SenderEmail string
+	Message     string
+	RoomID      string
 }
 
 // SetToggleBotInRoomReq is Represent Set toggle room request payload

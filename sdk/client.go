@@ -13,8 +13,8 @@ const APIBase = "https://api.qiscus.com"
 // SDK defines the supported subset of the SDK API.
 type SDK interface {
 	APIBase() string
-	AppCode() string
-	SecretKey() string
+	QiscusAppID() string
+	QiscusSecretKey() string
 	SetAPIBase(address string)
 
 	LoginOrRegister(req *LoginOrRegisterReq) (*LoginOrRegisterResponse, *qiscus.Error)
@@ -44,36 +44,36 @@ type SDK interface {
 
 // SDKImpl bundles data needed by a large number of methods in order to interact with the SDK API.
 type SDKImpl struct {
-	apiBase   string
-	appCode   string
-	secretKey string
+	apiBase         string
+	qiscusAppID     string
+	qiscusSecretKey string
 }
 
 // NewSDK creates a new client instance
-func NewSDK(appCode, secretKey string) SDK {
+func NewSDK(qiscusAppID, qiscusSecretKey string) SDK {
 	return &SDKImpl{
-		apiBase:   APIBase,
-		appCode:   appCode,
-		secretKey: secretKey,
+		apiBase:         APIBase,
+		qiscusAppID:     qiscusAppID,
+		qiscusSecretKey: qiscusSecretKey,
 	}
 }
 
 // NewSDKFromEnv returns a new SDK client using the environment variables
-// QISCUS_SDK_APP_CODE, QISCUS_SDK_SECRET_KEY and QISCUS_SDK_BASE_URL
+// QISCUS_APP_ID, QISCUS_SECRET_KEY and QISCUS_API_BASE
 func NewSDKFromEnv() (SDK, error) {
-	appCode := os.Getenv("QISCUS_SDK_APP_CODE")
-	if appCode == "" {
-		return nil, errors.New("required environment variable QISCUS_SDK_APP_CODE not defined")
+	qiscusAppID := os.Getenv("QISCUS_APP_ID")
+	if qiscusAppID == "" {
+		return nil, errors.New("required environment variable QISCUS_APP_ID not defined")
 	}
 
-	secretKey := os.Getenv("QISCUS_SDK_SECRET_KEY")
-	if secretKey == "" {
-		return nil, errors.New("required environment variable QISCUS_SDK_SECRET_KEY not defined")
+	qiscusSecretKey := os.Getenv("QISCUS_SECRET_KEY")
+	if qiscusSecretKey == "" {
+		return nil, errors.New("required environment variable QISCUS_SECRET_KEY not defined")
 	}
 
-	s := NewSDK(appCode, secretKey)
+	s := NewSDK(qiscusAppID, qiscusSecretKey)
 
-	url := os.Getenv("QISCUS_SDK_BASE_URL")
+	url := os.Getenv("QISCUS_API_BASE")
 	if url != "" {
 		s.SetAPIBase(url)
 	}
@@ -86,14 +86,14 @@ func (s *SDKImpl) APIBase() string {
 	return s.apiBase
 }
 
-// SecretKey returns the API Base URL configured for this client
-func (s *SDKImpl) SecretKey() string {
-	return s.secretKey
+// QiscusAppID returns the App ID configured for this client
+func (s *SDKImpl) QiscusAppID() string {
+	return s.qiscusAppID
 }
 
-// AppCode returns the App ID configured for this client
-func (s *SDKImpl) AppCode() string {
-	return s.appCode
+// QiscusSecretKey returns the Secret Key configured for this client
+func (s *SDKImpl) QiscusSecretKey() string {
+	return s.qiscusSecretKey
 }
 
 // SetAPIBase updates the API Base URL for this client.

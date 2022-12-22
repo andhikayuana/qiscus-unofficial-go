@@ -21,14 +21,16 @@ func TestGetRoomTags(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/api/v1/room_tag/%s", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":[{"id":%d,"name":"%s"}]}`, tagID, tagName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetRoomTags(roomID)
@@ -46,14 +48,16 @@ func TestCreateRoomTag(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v1/room_tag/create")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"id":%d,"name":"%s"}}`, tagID, tagName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.CreateRoomTag(&CreateRoomTagReq{RoomID: roomID, Tag: strconv.Itoa(tagID)})
@@ -71,14 +75,16 @@ func TestCreateAdditionalInfoRoomWithReplace(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/api/v1/qiscus/room/%s/user_info", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"extras":{"user_properties":[{"key":"%s","value":"%s"}]}}}`, additionalInfoRoomKey, additionalInfoRoomValue)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.CreateAdditionalInfoRoomWithReplace(roomID, &CreateAdditionalInfoRoomReq{
@@ -103,14 +109,16 @@ func TestGetAdditionalInfoRoom(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/api/v1/qiscus/room/%s/user_info", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"extras":{"user_properties":[{"key":"%s","value":"%s"}]}}}`, additionalInfoRoomKey, additionalInfoRoomValue)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAdditionalInfoRoom(roomID)
@@ -129,14 +137,16 @@ func TestCreateAdditionalInfoRoom(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/api/v1/qiscus/room/%s/user_info", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"extras":{"user_properties":[{"key":"%s","value":"%s"}]}}}`, additionalInfoRoomKey, additionalInfoRoomValue)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.CreateAdditionalInfoRoomWithReplace(roomID, &CreateAdditionalInfoRoomReq{
@@ -155,16 +165,17 @@ func TestCreateAdditionalInfoRoom(t *testing.T) {
 func TestSendMessageTextByBot(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
-		assert.Equal(t, req.URL.Path, fmt.Sprintf("/%s/bot", appCode))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.URL.Path, fmt.Sprintf("/%s/bot", qiscusAppID))
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
-	err := c.SendMessageTextByBot(&SendMessageTextByBotReq{Message: "Hello", RoomID: roomID})
+	err := c.SendMessageTextByBot(&SendMessageTextByBotReq{Message: "Hello", RoomID: roomID, SenderEmail: "test@mail.com"})
 	assert.Nil(t, err)
 }
 
@@ -172,14 +183,16 @@ func TestSetToggleBotInRoom(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/bot/%s/activate", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"room_id":"%s"}}`, roomID)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.SetToggleBotInRoom(roomID, false)
@@ -196,14 +209,16 @@ func TestGetAllAgents(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2/admin/agents")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"agents":[{"name":"%s","email":"%s"}]}}`, agentName, agentEmail)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAllAgents(&GetAllAgentsReq{
@@ -225,14 +240,16 @@ func TestAssignAgent(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v1/admin/service/assign_agent")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"added_agent":{"id":%d,"name":"%s","email":"%s"}}}`, agentID, agentName, agentEmail)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.AssignAgent(&AssignAgentReq{
@@ -257,14 +274,16 @@ func TestGetAgentsByDivision(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2/admin/agents/by_division")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":[{"id":%d,"name":"%s","email":"%s","user_roles":[{"id":%d,"name":"%s"}]}]}`, agentID, agentName, agentEmail, divisionID, divisionName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAgentsByDivision(&GetAgentsByDivisionReq{DivisionIDs: []string{strconv.Itoa(divisionID)}})
@@ -285,14 +304,16 @@ func TestGetAllDivision(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2/divisions")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":[{"id":%d,"name":"%s"}]}`, divisionID, divisionName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAllDivision(&GetAllDivisionReq{})
@@ -310,14 +331,16 @@ func TestMarkAsResolved(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodPost)
 		assert.Equal(t, req.URL.Path, "/api/v1/admin/service/mark_as_resolved")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"service":{"room_id":"%s","notes":"%s","last_comment_id":"%d"}}}`, roomID, notes, lastCommentID)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.MarkAsResolved(&MarkAsResolvedReq{
@@ -339,14 +362,16 @@ func TestGetAllChannels(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, "/api/v2/channels")
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"qiscus_channels":[{"id":%d,"name":"%s"}]}}`, qiscusChannelID, qiscusChannelName)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetAllChannels()
@@ -359,14 +384,16 @@ func TestGetRoomByRoomID(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.Method, http.MethodGet)
 		assert.Equal(t, req.URL.Path, fmt.Sprintf("/api/v2/customer_rooms/%s", roomID))
-		assert.Equal(t, req.Header.Get("Authorization"), adminToken)
+		assert.Equal(t, req.Header.Get("Qiscus-App-Id"), qiscusAppID)
+		assert.Equal(t, req.Header.Get("Qiscus-Secret-Key"), qiscusSecretKey)
+
 		rsp := fmt.Sprintf(`{"data":{"customer_room":{"room_id":"%s"}}}`, roomID)
 		fmt.Fprint(w, rsp)
 	}))
 
 	defer srv.Close()
 
-	c := NewMultichannel(appCode, adminToken, adminEmail)
+	c := NewMultichannel(qiscusAppID, qiscusSecretKey)
 	c.SetAPIBase(srv.URL)
 
 	result, err := c.GetRoomByRoomID(roomID)
